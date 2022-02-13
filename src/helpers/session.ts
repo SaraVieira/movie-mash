@@ -3,7 +3,7 @@ import { ERROR_MESSAGES } from "../constants/erorrs";
 
 const signInRedirect = {
   redirect: {
-    destination: "/signIn",
+    destination: "/signin",
     permanent: false,
   },
 };

@@ -37,8 +37,8 @@ export const FooterNav = () => {
   const router = useRouter();
 
   return (
-    <footer className="fixed bottom-0 w-screen left-0 bg-brand-darkBlue z-40 px-10 max-w-7xl shadow-xl border-t-[1px] border-brand-inputBg">
-      <nav>
+    <footer className="fixed bottom-0 w-screen left-0 bg-brand-darkBlue z-40 px-10 shadow-xl border-t-[1px] border-brand-inputBg">
+      <nav className=" max-w-7xl m-auto">
         <ul className="flex justify-between items-center h-[60px] p-0 m-0">
           {links.map(({ Icon, ...link }, i) => (
             <li

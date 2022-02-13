@@ -33,7 +33,7 @@ export default function IndexPage({ movie: initialMovie }) {
           alt={movie.title}
         />
       </section>
-      <section className="mt-[160px] lg:mt-[260px]">
+      <section className="mt-[160px] lg:mt-[260px] pb-24">
         <MovieActions {...movie} />
         <h2 className="font-semibold text-center text-2xl mt-6 mb-4">
           {movie.title}
@@ -88,6 +88,24 @@ export default function IndexPage({ movie: initialMovie }) {
             </li>
           ))}
         </ul>
+        <h3 className="text-lg mt-6">Videos</h3>
+        <section className="block lg:grid grid-cols-2 gap-4">
+          {movie.videos.map((video) => (
+            <div key={video.id}>
+              <h4 className="text-base pt-3 text-white text-opacity-50 pb-4">
+                {video.name}
+              </h4>
+              <div className="aspect-w-16 aspect-h-9">
+                <iframe
+                  className="border-0 w-full"
+                  src={`https://www.youtube-nocookie.com/embed/${video.key}`}
+                  frameBorder="0"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          ))}
+        </section>
       </section>
     </Layout>
   );
