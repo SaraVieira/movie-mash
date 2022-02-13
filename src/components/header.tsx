@@ -10,8 +10,7 @@ export default function Header() {
         <Link href="/signin">Sign In</Link>
       ) : (
         <>
-          {" "}
-          `Hello ${session.user.name || session.user.email}`
+          Hello ${session.user.name || session.user.email}`
           <button onClick={() => signOut()}>sign out</button>
         </>
       )}
