@@ -18,6 +18,41 @@ export const useMovieWatchlistToggle = ({ id }) => {
 
   return onMovieWatchlistToggle;
 };
+export const useLikeMovieToggled = ({ id }) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    (liked: boolean) =>
+      axios.post(`/api/movies/${id}/liked`, {
+        liked,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["movie", id]);
+      },
+    }
+  );
+
+  return mutation;
+};
+
+export const useDislikeMovieToggled = ({ id }) => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation(
+    (disliked: boolean) =>
+      axios.post(`/api/movies/${id}/disliked`, {
+        disliked,
+      }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["movie", id]);
+      },
+    }
+  );
+
+  return mutation;
+};
 
 export const useMovie = ({ initialMovie }) => {
   const { data: movie } = useQuery(

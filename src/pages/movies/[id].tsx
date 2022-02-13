@@ -14,7 +14,12 @@ import { validateSessionAndFetch } from "@/src/helpers/session";
 import { absoluteUrl } from "@/src/helpers/absolute-url";
 import Layout from "@/src/components/layout";
 import classNames from "classnames";
-import { useMovie, useMovieWatchlistToggle } from "@/src/hooks/useMovie";
+import {
+  useDislikeMovieToggled,
+  useLikeMovieToggled,
+  useMovie,
+  useMovieWatchlistToggle,
+} from "@/src/hooks/useMovie";
 import { getStars } from "@/src/helpers/movies";
 import { formattedDate, minutesToHoursAndMinutes } from "@/src/helpers/dates";
 
@@ -23,6 +28,8 @@ export default function IndexPage({ movie: initialMovie }) {
   const mutation = useMovieWatchlistToggle({
     id: movie.id,
   });
+  const likeMovie = useLikeMovieToggled({ id: movie.id });
+  const dislikeMovie = useDislikeMovieToggled({ id: movie.id });
   const date = formattedDate(movie.releaseDate);
   const { starsEmpty, starsFull } = getStars(movie.voteAverage);
 
@@ -53,6 +60,7 @@ export default function IndexPage({ movie: initialMovie }) {
               disabled={mutation.isLoading}
               className={classNames(
                 "p-4 bg-brand-inputBg hover:bg-brand-blue rounded-l-md text-opacity-80 text-white hover:text-brand-yellow",
+                "disabled:hover:text-white disabled:hover:text-opacity-80 disabled:hover:bg-brand-inputBg disabled:opacity-70",
                 movie.watchlist && "text-brand-yellow"
               )}
             >
@@ -61,15 +69,27 @@ export default function IndexPage({ movie: initialMovie }) {
           </Tippy>
           <Tippy content="Liked it">
             <button
+              onClick={() => likeMovie.mutateAsync(!movie.liked)}
+              disabled={likeMovie.isLoading || movie.disliked}
               className={classNames(
-                "p-4 bg-brand-inputBg hover:bg-brand-blue text-opacity-80 text-white hover:text-brand-green"
+                "p-4 bg-brand-inputBg hover:bg-brand-blue text-opacity-80 text-white hover:text-brand-green",
+                "disabled:hover:text-white disabled:hover:text-opacity-80 disabled:hover:bg-brand-inputBg disabled:opacity-70",
+                movie.liked && "text-brand-green"
               )}
             >
               <ThumbUpIcon className="w-5 h-5 " />
             </button>
           </Tippy>
           <Tippy content="Disliked it">
-            <button className="p-4 bg-brand-inputBg rounded-r-md hover:bg-brand-blue text-opacity-80 text-white hover:text-brand-red">
+            <button
+              onClick={() => dislikeMovie.mutateAsync(!movie.disliked)}
+              disabled={dislikeMovie.isLoading || movie.liked}
+              className={classNames(
+                "p-4 bg-brand-inputBg rounded-r-md hover:bg-brand-blue text-opacity-80 text-white hover:text-brand-red",
+                "disabled:hover:text-white disabled:hover:text-opacity-80 disabled:hover:bg-brand-inputBg disabled:opacity-70",
+                movie.disliked && "text-brand-red"
+              )}
+            >
               <ThumbDownIcon className="w-5 h-5 " />
             </button>
           </Tippy>

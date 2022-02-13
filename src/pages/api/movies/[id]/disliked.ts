@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
   const { id }: { id?: string } = req.query;
-  const { watchlist } = req.body;
+  const { disliked } = req.body;
 
   try {
     const data = await prisma.movies.findUnique({ where: { id } });
@@ -16,7 +16,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       await prisma.movies.create({
         data: {
           id,
-          watchlist,
+          disliked,
         },
       });
     } else {
@@ -25,11 +25,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           id,
         },
         data: {
-          watchlist,
+          disliked,
         },
       });
     }
-    res.json({ id, watchlist });
+    res.json({ id, disliked });
   } catch (e) {
     res.status(500).json(e);
   }
