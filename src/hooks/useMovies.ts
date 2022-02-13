@@ -13,12 +13,14 @@ export const TABS = [
 ];
 export const DEFAULT_TAB = TABS[0].key;
 
-export const useMovies = ({ activeTab, initialMovies }) => {
+export const useMovies = ({ activeTab, initialMovies, page }) => {
   const { data } = useQuery(
-    ["movies", activeTab],
+    ["movies", activeTab, page],
     async () => {
       const { data: fetchedMovies } = await axios(
-        `/api/movies/${activeTab === "POPULAR" ? "popular" : "new"}`
+        `/api/movies/${
+          activeTab === "POPULAR" ? "popular" : "new"
+        }?page=${page}`
       );
 
       return fetchedMovies;
