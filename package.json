@@ -1,13 +1,12 @@
 {
-  "name": "next-auth-example",
+  "name": "movie-mash",
   "version": "0.0.0",
   "private": true,
-  "description": "An example project for NextAuth.js",
-  "repository": "https://github.com/nextauthjs/next-auth-example.git",
+  "description": "A self hosted movie tracker",
+  "repository": "https://github.com/SaraVieira/movie-mash.git",
   "bugs": {
-    "url": "https://github.com/nextauthjs/next-auth/issues"
+    "url": "https://github.com/SaraVieira/movie-mash/issues"
   },
-  "homepage": "https://next-auth-example.vercel.app",
   "main": "",
   "scripts": {
     "dev": "next",
@@ -18,7 +17,7 @@
     "lint": "eslint . --cache --fix",
     "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\""
   },
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@headlessui/react": "^1.4.2",
     "@heroicons/react": "^1.0.5",
@@ -43,13 +42,10 @@
     "@babel/preset-react": "^7.16.7",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "^17.0.17",
     "@types/react": "^17.0.39",
     "autoprefixer": "^10.4.2",
-    "babel-plugin-styled-components": "^2.0.2",
     "babel-plugin-superjson-next": "^0.4.2",
     "eslint": "^8.9.0",
     "eslint-config-next": "^12.0.10",
@@ -61,10 +57,8 @@
     "postcss": "^8.4.5",
     "prettier": "2.5.1",
     "prisma": "^3.9.2",
-    "react-test-renderer": "^17.0.2",
     "superjson": "^1.8.1",
     "tailwindcss": "^3.0.22",
-    "ts-node": "^10.5.0",
     "twin.macro": "^2.8.2",
     "typescript": "^4.5.5"
   },
