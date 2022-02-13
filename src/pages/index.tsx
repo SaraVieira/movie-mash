@@ -8,10 +8,13 @@ import { absoluteUrl } from "../helpers/absolute-url";
 import { Movie } from "../components/Movie";
 import { DEFAULT_TAB, TABS, useMovies } from "../hooks/useMovies";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function IndexPage({ movies: initialMovies }) {
-  const [activeTab, setActiveTab] = useState(DEFAULT_TAB);
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState(router.query.tab || DEFAULT_TAB);
   const [page, setPage] = useState(1);
+
   const movies = useMovies({
     initialMovies,
     activeTab,
@@ -24,6 +27,14 @@ export default function IndexPage({ movies: initialMovies }) {
       behavior: "smooth",
     });
   }, [page]);
+
+  const changeTab = (tab) => {
+    setActiveTab(tab);
+    router.push({
+      pathname: "/",
+      query: { tab },
+    });
+  };
   return (
     <Layout searchHeader>
       <ul className="h-[56px] rounded-[26px] border-2 border-brand-border mb-6 flex items-center p-2">
@@ -37,7 +48,7 @@ export default function IndexPage({ movies: initialMovies }) {
             )}
           >
             <button
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => changeTab(tab.key)}
               className="font-semibold text-center w-full"
             >
               {tab.name}
