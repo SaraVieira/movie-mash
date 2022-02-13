@@ -12,7 +12,7 @@ export default function Header() {
         <>
           {" "}
           `Hello ${session.user.name || session.user.email}`
-          <button onClick={signOut}>sign out</button>
+          <button onClick={() => signOut()}>sign out</button>
         </>
       )}
     </header>
