@@ -6,8 +6,9 @@ import { getStars } from "../helpers/movies";
 import Tippy from "@tippyjs/react";
 
 export const Movie = (movie) => {
-  const date = formattedDate(movie.releaseDate);
-  const { starsEmpty, starsFull } = getStars(movie.voteAverage);
+  const date = formattedDate(movie.releaseDate || "");
+  const { starsEmpty = [], starsFull = [] } = getStars(movie.voteAverage);
+
   return (
     <li>
       <Link href={`/movies/${movie.id}`}>

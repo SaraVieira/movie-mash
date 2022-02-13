@@ -3,7 +3,7 @@ import prisma from "@/src/helpers/prisma";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const SignUp = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     return;
   }
@@ -34,3 +34,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   res.status(201).json({ message: "Created user!", ok: true });
 };
+
+export default SignUp;

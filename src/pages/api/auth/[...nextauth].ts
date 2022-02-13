@@ -11,7 +11,6 @@ export default NextAuth({
       async authorize(
         credentials: Record<"email" | "password", string> | undefined
       ) {
-        console.log(credentials);
         if (!credentials?.password || !credentials?.email) {
           throw new Error("No user found!");
         }

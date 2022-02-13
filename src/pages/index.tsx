@@ -1,16 +1,10 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import classNames from "classnames";
-import { useState } from "react";
-import Tippy from "@tippyjs/react";
-import { useQuery } from "react-query";
 
-import Link from "next/link";
 import Layout from "../components/layout";
 import { validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
-import { getStars } from "../helpers/movies";
-import { formattedDate } from "../helpers/dates";
 import { Movie } from "../components/Movie";
 import { TABS, useMovies } from "../hooks/useMovies";
 

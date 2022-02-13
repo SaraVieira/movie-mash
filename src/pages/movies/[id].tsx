@@ -8,8 +8,6 @@ import {
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import Tippy from "@tippyjs/react";
-import { isInteger } from "lodash-es";
-import Link from "next/link";
 import { validateSessionAndFetch } from "@/src/helpers/session";
 import { absoluteUrl } from "@/src/helpers/absolute-url";
 import Layout from "@/src/components/layout";
@@ -130,7 +128,7 @@ export default function IndexPage({ movie: initialMovie }) {
         <h3 className="text-lg mt-6">Cast</h3>
         <ul className="mb-6">
           {movie.cast.map((actor) => (
-            <li className="mt-4">
+            <li className="mt-4" key={actor.id}>
               <div className="flex items-center justify-between">
                 <div className="flex gap-4 items-center">
                   <div

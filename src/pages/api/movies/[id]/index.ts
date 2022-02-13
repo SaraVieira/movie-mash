@@ -1,4 +1,4 @@
-import { cleanActors, cleanMovie, cleanMovies } from "@/src/helpers/movies";
+import { cleanActors, cleanMovie } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
 
 import axios from "axios";
@@ -6,7 +6,7 @@ import camelcaseKeys from "camelcase-keys";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const Movie = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     return;
   }
@@ -55,7 +55,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       )
     );
   } catch (e) {
-    console.log(e);
     res.status(500).json(e);
   }
 };
+
+export default Movie;

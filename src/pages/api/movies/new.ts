@@ -5,7 +5,7 @@ import camelcaseKeys from "camelcase-keys";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const New = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     return;
   }
@@ -21,7 +21,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.json(camelcaseKeys(newData, { deep: true }));
   } catch (e) {
-    console.log(e);
     res.status(500).json(e);
   }
 };
+
+export default New;

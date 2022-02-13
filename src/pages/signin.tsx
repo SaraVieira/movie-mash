@@ -1,15 +1,13 @@
 import { useRouter } from "next/router";
-import { getSession, signIn, useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { getSession } from "next-auth/react";
 import Layout from "../components/layout";
 import { Input, Label } from "../components/Form";
 import Logo from "../components/Logo";
 import { useSignIn } from "../stores/useSignin";
-import { GetServerSideProps, GetServerSidePropsResult } from "next";
+import { GetServerSideProps } from "next";
 
 function SignIn() {
-  const { email, password, isFilledIn, setPassword, setEmail, signIn } =
-    useSignIn();
+  const { isFilledIn, setPassword, setEmail, signIn } = useSignIn();
   const router = useRouter();
 
   return (
