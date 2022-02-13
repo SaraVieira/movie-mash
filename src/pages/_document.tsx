@@ -5,7 +5,17 @@ export default function Document() {
     <Html>
       <Head>
         <meta charSet="utf-8" />
-        <title>MovieMash</title>
+        <meta name="application-name" content="MovieMash" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="MovieMash" />
+        <meta name="description" content="Your very own movie tracker" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="msapplication-TileColor" content="#FF1937" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="theme-color" content="#FF1937" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
