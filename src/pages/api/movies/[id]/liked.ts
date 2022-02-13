@@ -17,6 +17,7 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
         data: {
           id,
           liked,
+          watchlist: false,
         },
       });
     } else {
@@ -26,6 +27,7 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         data: {
           liked,
+          watchlist: false,
         },
       });
     }

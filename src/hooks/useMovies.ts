@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState } from "react";
 import { useQuery } from "react-query";
 
 export const TABS = [
@@ -12,27 +11,22 @@ export const TABS = [
     name: "New",
   },
 ];
-const DEFAULT_TAB = TABS[0].key;
+export const DEFAULT_TAB = TABS[0].key;
 
-export const useMovies = (props) => {
-  const [activeTab, setActiveTab] = useState(DEFAULT_TAB);
+export const useMovies = ({ activeTab, initialMovies }) => {
   const { data } = useQuery(
     ["movies", activeTab],
     async () => {
-      const { data: movies } = await axios(
+      const { data: fetchedMovies } = await axios(
         `/api/movies/${activeTab === "POPULAR" ? "popular" : "new"}`
       );
 
-      return movies;
+      return fetchedMovies;
     },
     {
-      initialData: activeTab === "POPULAR" ? props.movies : null,
+      initialData: activeTab === "POPULAR" ? initialMovies : null,
     }
   );
 
-  return {
-    data,
-    activeTab,
-    setActiveTab,
-  };
+  return data;
 };

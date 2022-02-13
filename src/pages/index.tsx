@@ -6,10 +6,15 @@ import Layout from "../components/layout";
 import { validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
 import { Movie } from "../components/Movie";
-import { TABS, useMovies } from "../hooks/useMovies";
+import { DEFAULT_TAB, TABS, useMovies } from "../hooks/useMovies";
+import { useState } from "react";
 
-export default function IndexPage(props) {
-  const { data, activeTab, setActiveTab } = useMovies(props);
+export default function IndexPage({ movies: initialMovies }) {
+  const [activeTab, setActiveTab] = useState(DEFAULT_TAB);
+  const movies = useMovies({
+    initialMovies,
+    activeTab,
+  });
   return (
     <Layout searchHeader>
       <ul className="h-[56px] rounded-[26px] border-2 border-brand-border mb-6 flex items-center p-2">
@@ -37,7 +42,9 @@ export default function IndexPage(props) {
         }}
         className="grid gap-x-4 gap-y-8"
       >
-        {(data?.results || []).map(Movie)}
+        {(movies?.results || []).map((m) => (
+          <Movie key={m.id} {...m} />
+        ))}
       </ul>
     </Layout>
   );

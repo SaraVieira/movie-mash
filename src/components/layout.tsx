@@ -6,6 +6,8 @@ import { Input } from "./Form";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 
+import { FooterNav } from "./FooterNav";
+
 interface Props {
   children: ReactNode;
   searchHeader?: boolean;
@@ -73,7 +75,8 @@ export default function Layout({ children, searchHeader, open, value }: Props) {
       ) : (
         <></>
       )}
-      <main>{children}</main>
+      <main className="max-w-7xl">{children}</main>
+      <FooterNav />
     </div>
   );
 }

@@ -17,6 +17,7 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
         data: {
           id,
           disliked,
+          watchlist: false,
         },
       });
     } else {
@@ -26,6 +27,7 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
         },
         data: {
           disliked,
+          watchlist: false,
         },
       });
     }

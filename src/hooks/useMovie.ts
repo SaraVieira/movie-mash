@@ -12,6 +12,7 @@ export const useMovieWatchlistToggle = ({ id }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["movie", id]);
+        queryClient.invalidateQueries("movies");
       },
     }
   );
@@ -29,6 +30,7 @@ export const useLikeMovieToggled = ({ id }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["movie", id]);
+        queryClient.invalidateQueries("movies");
       },
     }
   );
@@ -47,6 +49,7 @@ export const useDislikeMovieToggled = ({ id }) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["movie", id]);
+        queryClient.invalidateQueries("movies");
       },
     }
   );

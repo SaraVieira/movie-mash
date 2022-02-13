@@ -1,4 +1,5 @@
 import { cleanMovies } from "@/src/helpers/movies";
+import prisma from "@/src/helpers/prisma";
 
 import axios from "axios";
 import camelcaseKeys from "camelcase-keys";
@@ -17,9 +18,28 @@ const New = async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${TMDB_KEY}&language=en-US&page=${page}`
     );
 
-    const newData = await cleanMovies(newMovies);
+    const ourMovies = await prisma.movies.findMany({
+      where: {
+        id: {
+          in: newMovies.results.map((movie) => movie.id.toString()),
+        },
+      },
+    });
 
-    res.json(camelcaseKeys(newData, { deep: true }));
+    const newData = await cleanMovies(newMovies);
+    res.json(
+      camelcaseKeys(
+        {
+          ...newData,
+          results: newData.results.map((m) => ({
+            ...m,
+            ...(ourMovies.find((mov) => parseInt(mov.id) === parseInt(m.id)) ||
+              {}),
+          })),
+        },
+        { deep: true }
+      )
+    );
   } catch (e) {
     res.status(500).json(e);
   }
