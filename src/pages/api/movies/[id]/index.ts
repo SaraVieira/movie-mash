@@ -1,4 +1,5 @@
 import { cleanActors, cleanMovie, cleanMovies } from "@/src/helpers/movies";
+import prisma from "@/src/helpers/prisma";
 
 import axios from "axios";
 import camelcaseKeys from "camelcase-keys";
@@ -9,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     return;
   }
-  const { id } = req.query;
+  const { id }: { id?: string } = req.query;
   const { TMDB_KEY } = process.env;
 
   try {
@@ -25,6 +26,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     } = await axios(
       `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${TMDB_KEY}&language=en-US`
     );
+
+    const prismaData = await prisma.movies.findFirst({
+      where: { id },
+    });
 
     const officialVideos = videos.results.filter(
       (video) => video.site === "YouTube" && video.official
@@ -44,6 +49,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           ...cleanMovie(movie),
           videos: videosToReturn,
           cast: cleanActors(cast.slice(0, 6)),
+          ...(prismaData || {}),
         },
         { deep: true }
       )

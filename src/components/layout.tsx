@@ -1,5 +1,3 @@
-import Header from "./header";
-import type { ReactChildren } from "react";
 import Logo from "./Logo";
 import { SearchIcon } from "@heroicons/react/solid";
 import Link from "next/link";

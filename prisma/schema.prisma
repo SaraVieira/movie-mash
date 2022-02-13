@@ -54,3 +54,12 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+model Movies {
+    id        String   @id
+    seen      Boolean?
+    liked     Boolean?
+    disliked  Boolean?
+    watchlist Boolean?
+    comments  String?
+}

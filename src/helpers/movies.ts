@@ -1,5 +1,5 @@
 import axios from "axios";
-import { omit } from "lodash-es";
+import { isInteger, omit } from "lodash-es";
 import { IMAGES } from "../constants/images";
 
 const getGenres = async () => {
@@ -64,3 +64,16 @@ export const cleanActors = (cast) =>
     ...actor,
     profile_path: IMAGES.secure_base_url + "w185" + actor.profile_path,
   }));
+
+export const getStars = (a) => {
+  if (!a) return {};
+  const divided = Math.round((a / 2) * 2) / 2;
+  const value = isInteger(divided) ? divided : divided - 0.5;
+
+  return {
+    withHalf: isInteger(divided),
+    value,
+    starsFull: Array.from(Array(value).keys()),
+    starsEmpty: Array.from(Array(5 - value).keys()),
+  };
+};

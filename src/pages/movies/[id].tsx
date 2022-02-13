@@ -1,5 +1,10 @@
 import { StarIcon } from "@heroicons/react/solid";
-import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
+import {
+  ClockIcon,
+  StarIcon as StarIconOutline,
+  ThumbDownIcon,
+  ThumbUpIcon,
+} from "@heroicons/react/outline";
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import Tippy from "@tippyjs/react";
@@ -8,33 +13,19 @@ import Link from "next/link";
 import { validateSessionAndFetch } from "@/src/helpers/session";
 import { absoluteUrl } from "@/src/helpers/absolute-url";
 import Layout from "@/src/components/layout";
+import classNames from "classnames";
+import { useMovie, useMovieWatchlistToggle } from "@/src/hooks/useMovie";
+import { getStars } from "@/src/helpers/movies";
+import { formattedDate, minutesToHoursAndMinutes } from "@/src/helpers/dates";
 
-const getStars = (value) => {
-  const divided = Math.round((value / 2) * 2) / 2;
+export default function IndexPage({ movie: initialMovie }) {
+  const movie = useMovie({ initialMovie });
+  const mutation = useMovieWatchlistToggle({
+    id: movie.id,
+  });
+  const date = formattedDate(movie.releaseDate);
+  const { starsEmpty, starsFull } = getStars(movie.voteAverage);
 
-  return {
-    value: isInteger(divided) ? divided : divided - 0.5,
-    withHalf: isInteger(divided),
-  };
-};
-
-function timeConvert(n: number) {
-  const num = n;
-  const hours = num / 60;
-  const rhours = Math.floor(hours);
-  const minutes = (hours - rhours) * 60;
-  const rminutes = Math.round(minutes);
-  return `${rhours}hr ${rminutes}m`;
-}
-
-export default function IndexPage({ movie }) {
-  const [year, month, day] = movie.releaseDate.split("-");
-  const date = `${day}-${month}-${year}`;
-  const starsFull = Array.from(Array(getStars(movie.voteAverage).value).keys());
-  const starsEmpty = Array.from(
-    Array(5 - getStars(movie.voteAverage).value).keys()
-  );
-  console.log(movie);
   return (
     <Layout searchHeader>
       <div
@@ -51,13 +42,45 @@ export default function IndexPage({ movie }) {
         />
       </section>
       <section className="mt-[160px] lg:mt-[260px]">
+        <section className="flex items-center justify-center my-4">
+          <Tippy
+            content={
+              movie.watchlist ? "Remove from Watch later" : "Watch later"
+            }
+          >
+            <button
+              onClick={() => mutation.mutateAsync(!movie.watchlist)}
+              disabled={mutation.isLoading}
+              className={classNames(
+                "p-4 bg-brand-inputBg hover:bg-brand-blue rounded-l-md text-opacity-80 text-white hover:text-brand-yellow",
+                movie.watchlist && "text-brand-yellow"
+              )}
+            >
+              <ClockIcon className="w-5 h-5 " />
+            </button>
+          </Tippy>
+          <Tippy content="Liked it">
+            <button
+              className={classNames(
+                "p-4 bg-brand-inputBg hover:bg-brand-blue text-opacity-80 text-white hover:text-brand-green"
+              )}
+            >
+              <ThumbUpIcon className="w-5 h-5 " />
+            </button>
+          </Tippy>
+          <Tippy content="Disliked it">
+            <button className="p-4 bg-brand-inputBg rounded-r-md hover:bg-brand-blue text-opacity-80 text-white hover:text-brand-red">
+              <ThumbDownIcon className="w-5 h-5 " />
+            </button>
+          </Tippy>
+        </section>
         <h2 className="font-semibold text-center text-2xl mt-6 mb-4">
           {movie.title}
         </h2>
         <div className="flex text-xs text-white text-opacity-50 justify-center items-center">
           <span>{date}</span>
           <span className="mx-4">|</span>
-          {timeConvert(movie.runtime)}
+          {minutesToHoursAndMinutes(movie.runtime)}
         </div>
         <span className="w-full block mt-2 text-opacity-50 justify-between items-center text-white text-xs text-center">
           {movie.genres.map((genre) => genre.name).join(" | ")}
