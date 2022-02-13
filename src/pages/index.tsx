@@ -9,13 +9,14 @@ import { Movie } from "../components/Movie";
 import { DEFAULT_TAB, TABS, useMovies } from "../hooks/useMovies";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { Loader } from "../components/Loader";
 
 export default function IndexPage({ movies: initialMovies }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(router.query.tab || DEFAULT_TAB);
   const [page, setPage] = useState(1);
 
-  const movies = useMovies({
+  const { data: movies, loading } = useMovies({
     initialMovies,
     activeTab,
     page,
@@ -56,17 +57,23 @@ export default function IndexPage({ movies: initialMovies }) {
           </li>
         ))}
       </ul>
-      <ul
-        style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        }}
-        className="grid gap-x-4 gap-y-8 mb-12"
-      >
-        {(movies?.results || []).map((m) => (
-          <Movie key={m.id} {...m} />
-        ))}
-      </ul>
-      {movies?.results && (
+      {loading ? (
+        <div className="h-[60vh] flex items-center justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <ul
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          }}
+          className="grid gap-x-4 gap-y-8 mb-12"
+        >
+          {(movies?.results || []).map((m) => (
+            <Movie key={m.id} {...m} />
+          ))}
+        </ul>
+      )}
+      {movies?.results && !loading && (
         <nav
           className="mb-12 py-3 flex items-center justify-between"
           aria-label="Pagination"

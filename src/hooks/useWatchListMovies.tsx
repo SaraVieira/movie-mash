@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 export const useWatchListMovies = ({ initialMovies }) => {
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ["movies", "watchlist"],
     async () => {
       const { data: fetchedMovies } = await axios(`/api/movies/watchlist`);
@@ -14,5 +14,5 @@ export const useWatchListMovies = ({ initialMovies }) => {
     }
   );
 
-  return data;
+  return { movies: data, loading: isLoading };
 };

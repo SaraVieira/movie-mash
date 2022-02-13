@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 export const useWatchedMovies = ({ initialMovies, status }) => {
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ["movies", "watched"],
     async () => {
       const { data: fetchedMovies } = await axios(`/api/movies/watched`);
@@ -20,7 +20,10 @@ export const useWatchedMovies = ({ initialMovies, status }) => {
   if (status === "DISLIKED") results = data.results.filter((a) => a.disliked);
 
   return {
-    ...data,
-    results,
+    loading: isLoading,
+    movies: {
+      ...data,
+      results,
+    },
   };
 };

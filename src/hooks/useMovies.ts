@@ -14,7 +14,7 @@ export const TABS = [
 export const DEFAULT_TAB = TABS[0].key;
 
 export const useMovies = ({ activeTab, initialMovies, page }) => {
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ["movies", activeTab, page],
     async () => {
       const { data: fetchedMovies } = await axios(
@@ -30,5 +30,5 @@ export const useMovies = ({ activeTab, initialMovies, page }) => {
     }
   );
 
-  return data;
+  return { data, loading: isLoading };
 };

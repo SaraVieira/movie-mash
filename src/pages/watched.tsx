@@ -12,6 +12,7 @@ import Tippy from "@tippyjs/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { PlayIcon } from "@heroicons/react/solid";
+import { Loader } from "../components/Loader";
 
 type Status = "NONE" | "LIKED" | "DISLIKED";
 
@@ -23,7 +24,7 @@ export default function IndexPage({ movies: initialMovies }) {
   const [status, setStatus] = useState<Status>(
     (query.status as Status) || "NONE"
   );
-  const movies = useWatchedMovies({
+  const { movies, loading } = useWatchedMovies({
     initialMovies,
     status,
   });
@@ -75,7 +76,7 @@ export default function IndexPage({ movies: initialMovies }) {
                 onClick={() => onClick("DISLIKED")}
                 className={classNames(
                   buttonClasses,
-                  "rounded-r-md text-brand-red",
+                  "rounded-r-md !text-brand-red",
                   status === "DISLIKED" && "bg-brand-blue !text-opacity-100"
                 )}
               >
@@ -85,16 +86,22 @@ export default function IndexPage({ movies: initialMovies }) {
           </li>
         </ul>
       </div>
-      <ul
-        style={{
-          gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-        }}
-        className="grid gap-x-4 gap-y-8"
-      >
-        {(movies?.results || []).map((m) => (
-          <Movie key={m.id} {...m} />
-        ))}
-      </ul>
+      {loading ? (
+        <div className="h-[60vh] flex items-center justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <ul
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+          }}
+          className="grid gap-x-4 gap-y-8"
+        >
+          {(movies?.results || []).map((m) => (
+            <Movie key={m.id} {...m} />
+          ))}
+        </ul>
+      )}
     </Layout>
   );
 }
