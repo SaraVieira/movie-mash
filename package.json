@@ -16,7 +16,8 @@
     "types": "tsc --noEmit",
     "prepare": "husky install",
     "lint": "eslint . --cache --fix",
-    "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\""
+    "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\"",
+    "postinstall": "prisma generate"
   },
   "license": "ISC",
   "dependencies": {
