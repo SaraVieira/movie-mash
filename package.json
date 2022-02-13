@@ -11,13 +11,12 @@
   "main": "",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "types": "tsc --noEmit",
     "prepare": "husky install",
     "lint": "eslint . --cache --fix",
-    "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\"",
-    "postinstall": "prisma generate --schema=./src/prisma/schema.prisma"
+    "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\""
   },
   "license": "ISC",
   "dependencies": {
