@@ -33,12 +33,16 @@ const appendImageUrl = (movies) =>
     ...omit(movie, ["poster_path", "backdrop_path"]),
     posters: IMAGES.poster_sizes
       .map((size) => ({
-        [size]: IMAGES.secure_base_url + size + movie.poster_path,
+        [size]: movie.poster_path
+          ? IMAGES.secure_base_url + size + movie.poster_path
+          : null,
       }))
       .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
     backdrops: IMAGES.backdrop_sizes
       .map((size) => ({
-        [size]: IMAGES.secure_base_url + size + movie.backdrop_path,
+        [size]: movie.backdrop_path
+          ? IMAGES.secure_base_url + size + movie.backdrop_path
+          : null,
       }))
       .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
   }));

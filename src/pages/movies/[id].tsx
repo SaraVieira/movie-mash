@@ -11,25 +11,27 @@ import { useMovie } from "@/src/hooks/useMovie";
 import { getStars } from "@/src/helpers/movies";
 import { formattedDate, minutesToHoursAndMinutes } from "@/src/helpers/dates";
 import { MovieActions } from "@/src/components/MovieActions";
+import { Social } from "@/src/components/Social";
 
 export default function IndexPage({ movie: initialMovie }) {
   const movie = useMovie({ initialMovie });
-
+  const hasExternalIds = Object.values(movie.externalIds).find((a) => a);
   const date = formattedDate(movie.releaseDate);
   const { starsEmpty, starsFull } = getStars(movie.voteAverage);
-
   return (
     <Layout searchHeader>
-      <div
-        className="w-screen h-[350px] absolute left-0 top-0 z-0 blur-[1px] bg-cover bg-center md:h-[450px] lg:h-[550px]"
-        style={{
-          backgroundImage: `url(${movie.backdrops.w1280})`,
-        }}
-      />
+      {movie.backdrops.w1280 && (
+        <div
+          className="w-screen h-[350px] absolute left-0 top-0 z-0 blur-[1px] bg-cover bg-center md:h-[450px] lg:h-[550px]"
+          style={{
+            backgroundImage: `url(${movie.backdrops.w1280})`,
+          }}
+        />
+      )}
       <section className="relative z-10 top-[150px] lg:top-[250px]">
         <img
           className="rounded-md mb-2 shadow-md m-auto max-w-[250px]"
-          src={movie.posters.w342}
+          src={movie.posters.w342 || "/no-image.png"}
           alt={movie.title}
         />
       </section>
@@ -63,50 +65,59 @@ export default function IndexPage({ movie: initialMovie }) {
             ))}
           </span>
         </div>
+        {hasExternalIds && <Social externalIds={movie.externalIds} />}
         <h3 className="text-lg">Synopsis</h3>
         <p className="text-base pt-3 text-white text-opacity-50">
           {movie.overview}
         </p>
-        <h3 className="text-lg mt-6">Cast</h3>
-        <ul className="mb-6">
-          {movie.cast.map((actor) => (
-            <li className="mt-4" key={actor.id}>
-              <div className="flex items-center justify-between">
-                <div className="flex gap-4 items-center">
-                  <div
-                    className="h-[70px] bg-cover bg-center rounded-full w-[70px]"
-                    style={{
-                      backgroundImage: `url(${actor.profilePath})`,
-                    }}
-                  />
-                  {actor.name}
+        {movie.cast.length ? (
+          <>
+            <h3 className="text-lg mt-6">Cast</h3>
+            <ul className="mb-6">
+              {movie.cast.map((actor) => (
+                <li className="mt-4" key={actor.id}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-4 items-center">
+                      <div
+                        className="h-[70px] bg-cover bg-center rounded-full w-[70px]"
+                        style={{
+                          backgroundImage: `url(${actor.profilePath})`,
+                        }}
+                      />
+                      {actor.name}
+                    </div>
+                    <span className="text-white text-opacity-50">
+                      {actor.character}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+        {movie.videos.length ? (
+          <>
+            <h3 className="text-lg mt-6">Videos</h3>
+            <section className="block lg:grid grid-cols-2 gap-4">
+              {movie.videos.map((video) => (
+                <div key={video.id}>
+                  <h4 className="text-base pt-3 text-white text-opacity-50 pb-4">
+                    {video.name}
+                  </h4>
+                  <div className="aspect-w-16 aspect-h-9">
+                    <iframe
+                      className="border-0 w-full"
+                      src={`https://www.youtube-nocookie.com/embed/${video.key}`}
+                      frameBorder="0"
+                      allowFullScreen
+                    />
+                  </div>
                 </div>
-                <span className="text-white text-opacity-50">
-                  {actor.character}
-                </span>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <h3 className="text-lg mt-6">Videos</h3>
-        <section className="block lg:grid grid-cols-2 gap-4">
-          {movie.videos.map((video) => (
-            <div key={video.id}>
-              <h4 className="text-base pt-3 text-white text-opacity-50 pb-4">
-                {video.name}
-              </h4>
-              <div className="aspect-w-16 aspect-h-9">
-                <iframe
-                  className="border-0 w-full"
-                  src={`https://www.youtube-nocookie.com/embed/${video.key}`}
-                  frameBorder="0"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          ))}
-        </section>
-      </section>
+              ))}
+            </section>
+          </>
+        ) : null}
+      </section>{" "}
     </Layout>
   );
 }

@@ -9,6 +9,7 @@ export function minutesToHoursAndMinutes(n: number) {
 
 export const formattedDate = (date) => {
   const [year, month, day] = date.split("-");
+  if (!year || !month) return "";
   const formattedDate = `${day}-${month}-${year}`;
   return formattedDate;
 };

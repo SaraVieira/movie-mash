@@ -27,6 +27,10 @@ const Movie = async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${TMDB_KEY}&language=en-US`
     );
 
+    const { data: external_ids } = await axios(
+      `https://api.themoviedb.org/3/movie/${id}/external_ids?api_key=${TMDB_KEY}&language=en-US`
+    );
+
     const prismaData = await prisma.movies.findFirst({
       where: { id },
     });
@@ -49,6 +53,7 @@ const Movie = async (req: NextApiRequest, res: NextApiResponse) => {
           ...cleanMovie(movie),
           videos: videosToReturn,
           cast: cleanActors(cast.slice(0, 6)),
+          external_ids,
           ...(prismaData || {}),
         },
         { deep: true }

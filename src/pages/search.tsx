@@ -23,7 +23,9 @@ export default function SearchPage(props) {
         }}
         className="grid gap-x-4 gap-y-8"
       >
-        {(movies?.results || []).map(Movie)}
+        {(movies?.results || []).map((m) => (
+          <Movie key={m.id} {...m} />
+        ))}
       </ul>
     </Layout>
   );

@@ -28,7 +28,7 @@ export const Movie = (movie) => {
             )}
             <img
               className="rounded-md mb-2 shadow-md"
-              src={movie.posters.w342}
+              src={movie.posters.w342 || "/no-image.png"}
               alt={movie.title}
             />
           </div>
