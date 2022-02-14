@@ -1,71 +1,18 @@
 {
-  "name": "movie-mash",
-  "version": "0.0.0",
+  "name": "movie-mash-landing",
   "private": true,
-  "description": "A self hosted movie tracker",
-  "repository": "https://github.com/SaraVieira/movie-mash.git",
-  "bugs": {
-    "url": "https://github.com/SaraVieira/movie-mash/issues"
-  },
-  "main": "",
+  "version": "0.0.0",
   "scripts": {
-    "dev": "next",
-    "build": "prisma generate && next build",
-    "start": "next start",
-    "types": "tsc --noEmit",
-    "prepare": "husky install",
-    "lint": "eslint . --cache --fix",
-    "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\""
-  },
-  "license": "MIT",
-  "dependencies": {
-    "@headlessui/react": "^1.4.2",
-    "@heroicons/react": "^1.0.5",
-    "@next-auth/prisma-adapter": "^1.0.1",
-    "@prisma/client": "^3.9.2",
-    "@tippyjs/react": "^4.2.6",
-    "@types/bcryptjs": "^2.4.2",
-    "axios": "^0.26.0",
-    "bcryptjs": "^2.4.3",
-    "camelcase-keys": "^7.0.2",
-    "classnames": "^2.3.1",
-    "lodash-es": "^4.17.21",
-    "next": "^12.0.10",
-    "next-auth": "^4.2.1",
-    "next-pwa": "^5.4.4",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-query": "^3.34.15",
-    "zustand": "^3.7.0"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@babel/preset-react": "^7.16.7",
-    "@tailwindcss/aspect-ratio": "^0.4.0",
-    "@tailwindcss/forms": "^0.4.0",
-    "@types/lodash-es": "^4.17.6",
-    "@types/node": "^17.0.17",
-    "@types/react": "^17.0.39",
-    "autoprefixer": "^10.4.2",
-    "babel-plugin-superjson-next": "^0.4.2",
-    "eslint": "^8.9.0",
-    "eslint-config-next": "^12.0.10",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-import-resolver-alias": "^1.1.2",
-    "husky": ">=6",
-    "jest": "^27.4.5",
-    "lint-staged": "12.3.4",
-    "postcss": "^8.4.5",
-    "prettier": "2.5.1",
-    "prisma": "^3.9.2",
-    "superjson": "^1.8.1",
     "tailwindcss": "^3.0.22",
-    "twin.macro": "^2.8.2",
-    "typescript": "^4.5.5"
+    "vite": "^2.8.0"
   },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx}": [
-      "eslint --cache --fix",
-      "prettier --write"
-    ]
+  "dependencies": {
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.6"
   }
 }
