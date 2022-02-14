@@ -7,6 +7,7 @@ import { absoluteUrl } from "../helpers/absolute-url";
 import { signOut } from "next-auth/react";
 import Alert from "../components/Alert";
 import { useState } from "react";
+import { Button } from "../components/Button";
 
 export default function IndexPage({ stats, session }) {
   const { watched, watchlist } = stats;
@@ -64,18 +65,14 @@ export default function IndexPage({ stats, session }) {
         </div>
       </div>
 
-      <button
+      <Button
+        className="mb-14"
+        variant="secondary"
         onClick={() => setShowAlert(true)}
-        className="w-full mb-14 text-brand-red rounded-md h-[48px] disabled:opacity-50"
       >
         Wipe Data
-      </button>
-      <button
-        onClick={() => signOut()}
-        className="w-full bg-brand-red rounded-md h-[48px] disabled:opacity-50"
-      >
-        Sign Out
-      </button>
+      </Button>
+      <Button onClick={() => signOut()}>Sign Out</Button>
     </Layout>
   );
 }

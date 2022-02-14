@@ -12,7 +12,7 @@ export default NextAuth({
         credentials: Record<"email" | "password", string> | undefined
       ) {
         if (!credentials?.password || !credentials?.email) {
-          throw new Error("No user found!");
+          throw new Error("User not fund");
         }
         const user = await prisma.user.findFirst({
           where: {
@@ -21,7 +21,7 @@ export default NextAuth({
         });
 
         if (!user) {
-          throw new Error("No user found!");
+          throw new Error("User not fund");
         }
 
         const isValid = await verifyPassword(

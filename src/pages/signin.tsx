@@ -5,9 +5,12 @@ import { Input, Label } from "../components/Form";
 import Logo from "../components/Logo";
 import { useSignIn } from "../stores/useSignin";
 import { GetServerSideProps } from "next";
+import { Button } from "../components/Button";
+import { XCircleIcon } from "@heroicons/react/outline";
 
 function SignIn() {
-  const { isFilledIn, setPassword, setEmail, signIn } = useSignIn();
+  const { isFilledIn, setPassword, setEmail, error, signIn, signingIn } =
+    useSignIn();
   const router = useRouter();
 
   return (
@@ -35,14 +38,26 @@ function SignIn() {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
+          {error && (
+            <div className="rounded-md bg-red-50 p-4 my-4">
+              <div className="flex">
+                <div className="flex-shrink-0">
+                  <XCircleIcon
+                    className="h-5 w-5 text-red-400"
+                    aria-hidden="true"
+                  />
+                </div>
+                <div className="ml-3">
+                  <h3 className="text-sm font-medium text-red-800">{error}</h3>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <button
-          disabled={!isFilledIn()}
-          type="submit"
-          className="w-full bg-brand-red rounded-md h-[48px] disabled:opacity-50"
-        >
+
+        <Button disabled={!isFilledIn()} type="submit" loading={signingIn}>
           Login
-        </button>
+        </Button>
       </form>
     </Layout>
   );
