@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { FullMovie } from "../constants/types";
 
-export const useMovieWatchlistToggle = ({ id }) => {
+export const useMovieWatchlistToggle = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
 
   const onMovieWatchlistToggle = useMutation(
@@ -19,7 +20,7 @@ export const useMovieWatchlistToggle = ({ id }) => {
 
   return onMovieWatchlistToggle;
 };
-export const useLikeMovieToggled = ({ id }) => {
+export const useLikeMovieToggled = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -38,7 +39,7 @@ export const useLikeMovieToggled = ({ id }) => {
   return mutation;
 };
 
-export const useDislikeMovieToggled = ({ id }) => {
+export const useDislikeMovieToggled = ({ id }: { id: string }) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -57,7 +58,11 @@ export const useDislikeMovieToggled = ({ id }) => {
   return mutation;
 };
 
-export const useMovie = ({ initialMovie }) => {
+export const useMovie = ({
+  initialMovie,
+}: {
+  initialMovie: FullMovie;
+}): FullMovie => {
   const { data: movie } = useQuery(
     ["movie", initialMovie.id],
     async () => {

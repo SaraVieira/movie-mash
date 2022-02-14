@@ -9,8 +9,9 @@ import { MovieActions } from "./MovieActions";
 import { isArray } from "lodash-es";
 import { languages } from "../constants/languages";
 import { getFlagEmoji } from "../helpers/languages";
+import { MovieSmall } from "../constants/types";
 
-export const Movie = (movie) => {
+export const Movie = (movie: MovieSmall) => {
   const [showActions, setShowActions] = useState(false);
   const date = formattedDate(movie.releaseDate || "");
   const { starsEmpty = [], starsFull = [] } = getStars(movie.voteAverage);

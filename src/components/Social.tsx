@@ -1,4 +1,5 @@
 import Tippy from "@tippyjs/react";
+import { ExternalIds } from "../constants/types";
 import { IMDb, Instagram, Twitter } from "./Icons";
 
 const platforms = [
@@ -22,7 +23,7 @@ const platforms = [
   },
 ];
 
-export const Social = ({ externalIds }) => {
+export const Social = ({ externalIds }: { externalIds: ExternalIds }) => {
   return (
     <div className="flex gap-4 items-center justify-center mb-8">
       {platforms.map(

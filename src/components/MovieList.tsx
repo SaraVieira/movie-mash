@@ -1,7 +1,14 @@
+import { MoviesResponse } from "../constants/types";
 import { Loader } from "./Loader";
 import { Movie } from "./Movie";
 
-export const MovieList = ({ movies, loading }) => {
+export const MovieList = ({
+  movies,
+  loading,
+}: {
+  movies: MoviesResponse;
+  loading: boolean;
+}) => {
   if (movies?.results.length === 0 && !loading) {
     return (
       <div className="flex w-full h-[80vh] items-center justify-center flex-col">

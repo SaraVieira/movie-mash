@@ -8,8 +8,15 @@ import { signOut } from "next-auth/react";
 import Alert from "../components/Alert";
 import { useState } from "react";
 import { Button } from "../components/Button";
+import { Stats } from "../constants/types";
 
-export default function IndexPage({ stats, session }) {
+export default function IndexPage({
+  stats,
+  session,
+}: {
+  stats: Stats;
+  session: { user: { email: string } };
+}) {
   const { watched, watchlist } = stats;
   const [showAlert, setShowAlert] = useState(false);
 
@@ -80,7 +87,7 @@ export default function IndexPage({ stats, session }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
-    const { data: stats } = await axios(origin + "/api/stats");
+    const { data: stats }: { data: Stats } = await axios(origin + "/api/stats");
     return {
       props: { session, ...stats },
     };

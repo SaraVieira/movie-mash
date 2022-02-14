@@ -1,7 +1,7 @@
 import { StarIcon } from "@heroicons/react/solid";
 import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 import { validateSessionAndFetch } from "@/src/helpers/session";
 import { absoluteUrl } from "@/src/helpers/absolute-url";
@@ -15,8 +15,13 @@ import { Social } from "@/src/components/Social";
 import { languages } from "@/src/constants/languages";
 import { getFlagEmoji } from "@/src/helpers/languages";
 import Tippy from "@tippyjs/react";
+import { FullMovie } from "@/src/constants/types";
 
-export default function IndexPage({ movie: initialMovie }) {
+export default function IndexPage({
+  movie: initialMovie,
+}: {
+  movie: FullMovie;
+}) {
   const movie = useMovie({ initialMovie });
   const hasExternalIds = Object.values(movie.externalIds).find((a) => a);
   const date = formattedDate(movie.releaseDate);
@@ -132,16 +137,20 @@ export default function IndexPage({ movie: initialMovie }) {
             </section>
           </>
         ) : null}
-      </section>{" "}
+      </section>
     </Layout>
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
     const { id } = context.query;
-    const { data: movie } = await axios(origin + "/api/movies/" + id);
+    const { data: movie }: { data: FullMovie } = await axios(
+      origin + "/api/movies/" + id
+    );
     return {
       props: { session, movie },
     };

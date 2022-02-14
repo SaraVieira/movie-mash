@@ -1,6 +1,6 @@
 import { ThumbDownIcon, ThumbUpIcon } from "@heroicons/react/outline";
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 import Layout from "../components/layout";
 import { validateSessionAndFetch } from "../helpers/session";
@@ -14,13 +14,16 @@ import { useRouter } from "next/router";
 import { PlayIcon } from "@heroicons/react/solid";
 
 import { MovieList } from "../components/MovieList";
-
-type Status = "NONE" | "LIKED" | "DISLIKED";
+import { MoviesResponse, Status } from "../constants/types";
 
 const buttonClasses =
   "p-4 bg-brand-inputBg hover:bg-brand-blue text-opacity-80 text-white disabled:hover:text-white disabled:hover:text-opacity-80 disabled:hover:bg-brand-inputBg disabled:opacity-70 text-brand-green";
 
-export default function IndexPage({ movies: initialMovies }) {
+export default function IndexPage({
+  movies: initialMovies,
+}: {
+  movies: MoviesResponse;
+}) {
   const { query, push } = useRouter();
   const [status, setStatus] = useState<Status>(
     (query.status as Status) || "NONE"
@@ -92,10 +95,14 @@ export default function IndexPage({ movies: initialMovies }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
-    const { data: movies } = await axios(origin + "/api/movies/watched");
+    const { data: movies }: { data: MoviesResponse } = await axios(
+      origin + "/api/movies/watched"
+    );
     return {
       props: { session, movies },
     };

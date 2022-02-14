@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useQuery } from "react-query";
+import { MoviesResponse } from "../constants/types";
 
 export const TABS = [
   {
@@ -14,7 +15,15 @@ export const TABS = [
 
 export const DEFAULT_TAB = TABS[0].key;
 
-export const useMovies = ({ activeTab, initialMovies, page }) => {
+export const useMovies = ({
+  activeTab,
+  initialMovies,
+  page,
+}: {
+  activeTab: string;
+  initialMovies: MoviesResponse;
+  page: number;
+}): { data: MoviesResponse; loading: boolean } => {
   const { data, isLoading, isFetching } = useQuery(
     ["movies", activeTab, page],
     async () => {

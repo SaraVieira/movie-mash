@@ -2,6 +2,15 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon } from "@heroicons/react/outline";
 
+type Props = {
+  open: boolean;
+  title: string;
+  onSubmit: () => void;
+  description?: string;
+  primaryButtonText: string;
+  onClose?: () => void;
+};
+
 export default function Alert({
   open: defaultOpen,
   title,
@@ -9,7 +18,7 @@ export default function Alert({
   description,
   primaryButtonText,
   onClose,
-}) {
+}: Props) {
   const [open, setOpen] = useState(defaultOpen);
 
   const cancelButtonRef = useRef(null);

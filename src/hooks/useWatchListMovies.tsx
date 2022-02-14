@@ -1,7 +1,15 @@
 import axios from "axios";
 import { useQuery } from "react-query";
+import { MoviesResponse } from "../constants/types";
 
-export const useWatchListMovies = ({ initialMovies }) => {
+export const useWatchListMovies = ({
+  initialMovies,
+}: {
+  initialMovies: MoviesResponse;
+}): {
+  movies: MoviesResponse;
+  loading: boolean;
+} => {
   const { data, isLoading } = useQuery(
     ["movies", "watchlist"],
     async () => {

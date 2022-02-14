@@ -9,15 +9,21 @@ import { DEFAULT_TAB, TABS, useMovies } from "../hooks/useMovies";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { MovieList } from "../components/MovieList";
+import { MoviesResponse } from "../constants/types";
 
-export default function IndexPage({ movies: initialMovies }) {
+export default function IndexPage({
+  movies: initialMovies,
+}: {
+  movies: MoviesResponse;
+}) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState(router.query.tab || DEFAULT_TAB);
+  const { tab: initialTab, page: initialPage } = router.query as {
+    tab: string;
+    page: string;
+  };
+  const [activeTab, setActiveTab] = useState(initialTab || DEFAULT_TAB);
 
-  const [page, setPage] = useState<number>(
-    // @ts-ignore
-    parseInt(router.query.page) || 1
-  );
+  const [page, setPage] = useState<number>(parseInt(initialPage) || 1);
 
   const { data: movies, loading } = useMovies({
     initialMovies,

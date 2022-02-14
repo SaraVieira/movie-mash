@@ -1,13 +1,18 @@
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 import Layout from "../components/layout";
 import { validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
 import { useWatchListMovies } from "../hooks/useWatchListMovies";
 import { MovieList } from "../components/MovieList";
+import { MoviesResponse } from "../constants/types";
 
-export default function IndexPage({ movies: initialMovies }) {
+export default function IndexPage({
+  movies: initialMovies,
+}: {
+  movies: MoviesResponse;
+}) {
   const { movies, loading } = useWatchListMovies({
     initialMovies,
   });
@@ -19,10 +24,14 @@ export default function IndexPage({ movies: initialMovies }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
-    const { data: movies } = await axios(origin + "/api/movies/watchlist");
+    const { data: movies }: { data: MoviesResponse } = await axios(
+      origin + "/api/movies/watchlist"
+    );
     return {
       props: { session, movies },
     };

@@ -11,6 +11,7 @@ export const Button = ({
   loading,
   children,
   variant = "primary",
+  className = "",
   ...props
 }: Props) => {
   const disabled = props.disabled || loading;
@@ -21,7 +22,7 @@ export const Button = ({
 
   return (
     <button
-      className={classNames(classes[variant], "w-full", props.className)}
+      className={classNames(classes[variant], "w-full", className)}
       {...props}
       disabled={disabled}
     >
