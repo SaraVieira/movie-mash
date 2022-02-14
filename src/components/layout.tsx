@@ -75,7 +75,7 @@ export default function Layout({ children, searchHeader, open, value }: Props) {
       ) : (
         <></>
       )}
-      <main className="max-w-7xl m-auto">{children}</main>
+      <main className="max-w-7xl m-auto mb-16">{children}</main>
       <FooterNav />
     </div>
   );

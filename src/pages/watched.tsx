@@ -5,14 +5,15 @@ import { GetServerSideProps } from "next";
 import Layout from "../components/layout";
 import { validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
-import { Movie } from "../components/Movie";
+
 import { useWatchedMovies } from "../hooks/useWatchedMovies";
 import classNames from "classnames";
 import Tippy from "@tippyjs/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { PlayIcon } from "@heroicons/react/solid";
-import { Loader } from "../components/Loader";
+
+import { MovieList } from "../components/MovieList";
 
 type Status = "NONE" | "LIKED" | "DISLIKED";
 
@@ -86,22 +87,7 @@ export default function IndexPage({ movies: initialMovies }) {
           </li>
         </ul>
       </div>
-      {loading ? (
-        <div className="h-[60vh] flex items-center justify-center">
-          <Loader />
-        </div>
-      ) : (
-        <ul
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          }}
-          className="grid gap-x-4 gap-y-8"
-        >
-          {(movies?.results || []).map((m) => (
-            <Movie key={m.id} {...m} />
-          ))}
-        </ul>
-      )}
+      <MovieList movies={movies} loading={loading} />
     </Layout>
   );
 }

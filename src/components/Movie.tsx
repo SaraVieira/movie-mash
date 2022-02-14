@@ -7,6 +7,8 @@ import Tippy from "@tippyjs/react";
 import { useState } from "react";
 import { MovieActions } from "./MovieActions";
 import { isArray } from "lodash-es";
+import { languages } from "../constants/languages";
+import { getFlagEmoji } from "../helpers/languages";
 
 export const Movie = (movie) => {
   const [showActions, setShowActions] = useState(false);
@@ -51,7 +53,20 @@ export const Movie = (movie) => {
             </Tippy>
           </div>
 
-          <span className="font-semibold mt-2 block">{movie.title}</span>
+          <span className="font-semibold mt-2 block">
+            {movie.title}
+            {movie.originalLanguage !== "en" && (
+              <Tippy
+                content={`Movie is in ${languages[movie.originalLanguage]}`}
+              >
+                <button>
+                  <span className="ml-2">
+                    {getFlagEmoji(movie.originalLanguage)}
+                  </span>
+                </button>
+              </Tippy>
+            )}
+          </span>
           <div className="flex text-xs text-white text-opacity-50 justify-between items-center">
             <span className="max-w-[70%]">
               {isArray(movie.genres)

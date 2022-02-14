@@ -32,7 +32,7 @@ export const Social = ({ externalIds }) => {
               <a
                 target="_blank"
                 rel="noreferrer"
-                href={`${platform.link}${externalIds.facebookId}/`}
+                href={`${platform.link}${externalIds[platform.key]}/`}
                 className="text-white opacity-50 hover:opacity-100"
               >
                 <Icon className="w-5 " />

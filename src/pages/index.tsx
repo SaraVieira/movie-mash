@@ -5,16 +5,19 @@ import classNames from "classnames";
 import Layout from "../components/layout";
 import { validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
-import { Movie } from "../components/Movie";
 import { DEFAULT_TAB, TABS, useMovies } from "../hooks/useMovies";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Loader } from "../components/Loader";
+import { MovieList } from "../components/MovieList";
 
 export default function IndexPage({ movies: initialMovies }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(router.query.tab || DEFAULT_TAB);
-  const [page, setPage] = useState(1);
+
+  const [page, setPage] = useState<number>(
+    // @ts-ignore
+    parseInt(router.query.page) || 1
+  );
 
   const { data: movies, loading } = useMovies({
     initialMovies,
@@ -34,6 +37,13 @@ export default function IndexPage({ movies: initialMovies }) {
     router.push({
       pathname: "/",
       query: { tab },
+    });
+  };
+  const changePage = (page) => {
+    setPage(page);
+    router.push({
+      pathname: "/",
+      query: { ...router.query, page },
     });
   };
   return (
@@ -57,25 +67,10 @@ export default function IndexPage({ movies: initialMovies }) {
           </li>
         ))}
       </ul>
-      {loading ? (
-        <div className="h-[60vh] flex items-center justify-center">
-          <Loader />
-        </div>
-      ) : (
-        <ul
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-          }}
-          className="grid gap-x-4 gap-y-8 mb-12"
-        >
-          {(movies?.results || []).map((m) => (
-            <Movie key={m.id} {...m} />
-          ))}
-        </ul>
-      )}
+      <MovieList movies={movies} loading={loading || !movies?.results.length} />
       {movies?.results && !loading && (
         <nav
-          className="mb-12 py-3 flex items-center justify-between"
+          className="mt-6 py-3 flex items-center justify-between"
           aria-label="Pagination"
         >
           <div className="hidden sm:block">
@@ -89,14 +84,14 @@ export default function IndexPage({ movies: initialMovies }) {
           </div>
           <div className="flex-1 flex justify-between sm:justify-end">
             <button
-              onClick={() => setPage(page - 1)}
+              onClick={() => changePage(page - 1)}
               className="relative inline-flex items-center px-4 py-2  text-sm font-medium rounded-md text-white bg-brand-inputBg disabled:opacity-50"
               disabled={page === 1}
             >
               Previous
             </button>
             <button
-              onClick={() => setPage(page + 1)}
+              onClick={() => changePage(page + 1)}
               className="ml-3 relative inline-flex items-center px-4 py-2  text-sm font-medium rounded-md text-white bg-brand-inputBg"
             >
               Next
@@ -111,7 +106,11 @@ export default function IndexPage({ movies: initialMovies }) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
-    const { data: movies } = await axios(origin + "/api/movies/popular");
+    const { tab, page } = context.query as { tab: string; page: string };
+    const url = `${origin}/api/movies/${
+      tab ? tab.toLowerCase() : "popular"
+    }?page=${page || 1}`;
+    const { data: movies } = await axios(url);
     return {
       props: { session, movies },
     };

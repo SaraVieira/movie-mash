@@ -14,10 +14,16 @@ const Search = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const { data: searchMovies } = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false`
+      `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false?sortBy=popularity.desc`
     );
 
-    const newData = await cleanMovies(searchMovies);
+    const cleanedMovies = await cleanMovies(searchMovies);
+    const newData = {
+      ...cleanedMovies,
+      results: cleanedMovies.results.sort(
+        (a, b) => b.popularity - a.popularity
+      ),
+    };
 
     res.json(camelcaseKeys(newData, { deep: true }));
   } catch (e) {

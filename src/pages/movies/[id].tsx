@@ -12,6 +12,9 @@ import { getStars } from "@/src/helpers/movies";
 import { formattedDate, minutesToHoursAndMinutes } from "@/src/helpers/dates";
 import { MovieActions } from "@/src/components/MovieActions";
 import { Social } from "@/src/components/Social";
+import { languages } from "@/src/constants/languages";
+import { getFlagEmoji } from "@/src/helpers/languages";
+import Tippy from "@tippyjs/react";
 
 export default function IndexPage({ movie: initialMovie }) {
   const movie = useMovie({ initialMovie });
@@ -39,7 +42,17 @@ export default function IndexPage({ movie: initialMovie }) {
         <MovieActions {...movie} />
         <h2 className="font-semibold text-center text-2xl mt-6 mb-4">
           {movie.title}
+          {movie.originalLanguage !== "en" && (
+            <Tippy content={`Movie is in ${languages[movie.originalLanguage]}`}>
+              <button>
+                <span className="ml-2">
+                  {getFlagEmoji(movie.originalLanguage)}
+                </span>
+              </button>
+            </Tippy>
+          )}
         </h2>
+
         <div className="flex text-xs text-white text-opacity-50 justify-center items-center">
           <span>{date}</span>
           <span className="mx-4">|</span>
@@ -48,23 +61,25 @@ export default function IndexPage({ movie: initialMovie }) {
         <span className="w-full block mt-2 text-opacity-50 justify-between items-center text-white text-xs text-center">
           {movie.genres.map((genre) => genre.name).join(" | ")}
         </span>
-        <div className=" flex items-center justify-center my-4">
-          <span className="text-2xl pr-4">{movie.voteAverage} / 10</span>
-          <span>
-            {starsFull.map((i) => (
-              <StarIcon
-                key={i}
-                className="text-brand-yellow w-8 inline-block"
-              />
-            ))}
-            {starsEmpty.map((i) => (
-              <StarIconOutline
-                key={i}
-                className="text-brand-yellow w-[30px] inline-block"
-              />
-            ))}
-          </span>
-        </div>
+        {!!movie.voteAverage && (
+          <div className=" flex items-center justify-center my-4">
+            <span className="text-2xl pr-4">{movie.voteAverage} / 10</span>
+            <span>
+              {starsFull.map((i) => (
+                <StarIcon
+                  key={i}
+                  className="text-brand-yellow w-8 inline-block"
+                />
+              ))}
+              {starsEmpty.map((i) => (
+                <StarIconOutline
+                  key={i}
+                  className="text-brand-yellow w-[30px] inline-block"
+                />
+              ))}
+            </span>
+          </div>
+        )}
         {hasExternalIds && <Social externalIds={movie.externalIds} />}
         <h3 className="text-lg">Synopsis</h3>
         <p className="text-base pt-3 text-white text-opacity-50">
