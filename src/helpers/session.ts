@@ -97,7 +97,9 @@ export async function createAuthHeaders(context) {
     withCredentials: true,
     headers: {
       Authentication: "Bearer " + encodedToken,
-      Cookie: `next-auth.csrf-token=${csrfToken}; next-auth.callback-url=${process.env.NEXTAUTH_URL}%2Fsignin; next-auth.session-token=${encodedToken}`,
+      Cookie: `next-auth.csrf-token=${csrfToken}; next-auth.callback-url=${encodeURIComponent(
+        process.env.NEXTAUTH_URL
+      )}%2Fsignin; next-auth.session-token=${encodedToken}`,
     },
   };
 }
