@@ -6,7 +6,6 @@ import { getStars } from "../helpers/movies";
 import Tippy from "@tippyjs/react";
 import { useState } from "react";
 import { MovieActions } from "./MovieActions";
-import { isArray } from "lodash-es";
 import { languages } from "../constants/languages";
 import { getFlagEmoji } from "../helpers/languages";
 import { MovieSmall } from "../constants/types";
