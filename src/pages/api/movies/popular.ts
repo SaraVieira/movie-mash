@@ -42,6 +42,7 @@ const Popular = async (req: NextApiRequest, res: NextApiResponse) => {
       )
     );
   } catch (e) {
+    console.log(e);
     res.status(500).json(e);
   }
 };
