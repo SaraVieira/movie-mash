@@ -3,7 +3,8 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Settings } from "../constants/types";
 
 export const useSettings = (
-  initialSettings: Settings
+  initialSettings: Settings,
+  session: any
 ): {
   settings: Settings;
   loading: boolean;
@@ -15,7 +16,7 @@ export const useSettings = (
 
       return settings;
     },
-    { initialData: initialSettings }
+    { initialData: initialSettings, enabled: session?.user?.admin }
   );
 
   return { settings, loading: isLoading };

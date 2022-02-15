@@ -20,7 +20,7 @@ export default function IndexPage({
   stats: Stats;
   session: { user: { email: string; admin: boolean } };
 }) {
-  const { settings } = useSettings(initialSettings);
+  const { settings } = useSettings(initialSettings, session);
   const mutation = useToggleSettings(settings);
   const { watched, watchlist } = stats;
   const [showAlert, setShowAlert] = useState(false);
@@ -112,11 +112,20 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
     const { data: stats }: { data: Stats } = await axios(origin + "/api/stats");
-    const { data: settings } = await axios(origin + "/api/settings");
 
+    if (session?.user.admin) {
+      const { data: settings } = await axios(origin + "/api/settings");
+      return {
+        props: {
+          settings,
+          session,
+          ...stats,
+        },
+      };
+    }
     return {
       props: {
-        settings,
+        settings: {},
         session,
         ...stats,
       },
