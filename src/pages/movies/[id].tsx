@@ -3,7 +3,10 @@ import { StarIcon as StarIconOutline } from "@heroicons/react/outline";
 import axios from "axios";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
-import { validateSessionAndFetch } from "@/src/helpers/session";
+import {
+  createAuthHeaders,
+  validateSessionAndFetch,
+} from "@/src/helpers/session";
 import { absoluteUrl } from "@/src/helpers/absolute-url";
 import Layout from "@/src/components/layout";
 
@@ -147,9 +150,11 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
+    const authOptions = await createAuthHeaders(context);
     const { id } = context.query;
     const { data: movie }: { data: FullMovie } = await axios(
-      origin + "/api/movies/" + id
+      origin + "/api/movies/" + id,
+      authOptions
     );
     return {
       props: { session, movie },

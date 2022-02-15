@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <SessionProvider session={pageProps.session}>
           <Head>
             <meta
               name="viewport"

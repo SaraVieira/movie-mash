@@ -8,6 +8,7 @@ const New = async (req: NextApiRequest, res: NextApiResponse) => {
   const existingSetting = await prisma.settings.findFirst();
   if (req.method !== "POST") {
     res.json(existingSetting || {});
+    return;
   }
 
   try {

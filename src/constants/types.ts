@@ -1,3 +1,5 @@
+import { ISODateString } from "next-auth";
+
 export type MovieSmall = {
   adult: boolean;
   id: string;
@@ -126,4 +128,15 @@ export type Stats = {
 };
 export type Settings = {
   allowRegistration: boolean;
+};
+
+export type NewSession = {
+  user?: {
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
+    admin?: boolean;
+    id?: string | null;
+  };
+  expires: ISODateString;
 };

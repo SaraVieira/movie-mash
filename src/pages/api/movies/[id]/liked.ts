@@ -1,9 +1,16 @@
+import { NewSession } from "@/src/constants/types";
 import { getGenresToCreate } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
+import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
 
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from "next-auth/react";
 
 const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
+  isAuthenticatedAPIRoute(req, res);
+  const session: NewSession = await getSession({
+    req,
+  });
   if (req.method !== "POST") {
     return;
   }
@@ -19,6 +26,7 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
       await prisma.movies.create({
         data: {
           ...movie,
+          userId: session.user.id,
           id: id.toString(),
           backdrops: {
             create: movie.backdrops,

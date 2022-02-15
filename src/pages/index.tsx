@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 import classNames from "classnames";
 
 import Layout from "../components/layout";
-import { validateSessionAndFetch } from "../helpers/session";
+import { createAuthHeaders, validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
 import { DEFAULT_TAB, TABS, useMovies } from "../hooks/useMovies";
 import { useEffect, useState } from "react";
@@ -111,12 +111,13 @@ export default function IndexPage({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
+    const authOptions = await createAuthHeaders(context);
     const { origin } = absoluteUrl(context.req);
     const { tab, page } = context.query as { tab: string; page: string };
     const url = `${origin}/api/movies/${
       tab ? tab.toLowerCase() : "popular"
     }?page=${page || 1}`;
-    const { data: movies } = await axios(url);
+    const { data: movies } = await axios(url, authOptions);
     return {
       props: { session, movies },
     };

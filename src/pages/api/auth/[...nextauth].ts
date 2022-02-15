@@ -3,19 +3,19 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyPassword } from "@/src/helpers/password";
 import prisma from "@/src/helpers/prisma";
+import { NewSession } from "@/src/constants/types";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   callbacks: {
-    async session({ session }) {
+    async session({ session }: { session: NewSession }): Promise<NewSession> {
       const idUser = await prisma.user.findUnique({
         where: {
           email: session.user.email,
         },
       });
-      // @ts-ignore
       session.user.admin = idUser.role === "ADMIN";
-
+      session.user.id = idUser.id;
       return session;
     },
   },

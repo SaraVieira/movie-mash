@@ -2,7 +2,7 @@ import axios from "axios";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 
 import Layout from "../components/layout";
-import { validateSessionAndFetch } from "../helpers/session";
+import { createAuthHeaders, validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
 import { useWatchListMovies } from "../hooks/useWatchListMovies";
 import { MovieList } from "../components/MovieList";
@@ -29,8 +29,10 @@ export const getServerSideProps: GetServerSideProps = async (
 ) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
+    const authOptions = await createAuthHeaders(context);
     const { data: movies }: { data: MoviesResponse } = await axios(
-      origin + "/api/movies/watchlist"
+      origin + "/api/movies/watchlist",
+      authOptions
     );
     return {
       props: { session, movies },

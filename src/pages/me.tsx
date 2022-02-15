@@ -2,7 +2,7 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 
 import Layout from "../components/layout";
-import { validateSessionAndFetch } from "../helpers/session";
+import { createAuthHeaders, validateSessionAndFetch } from "../helpers/session";
 import { absoluteUrl } from "../helpers/absolute-url";
 import { signOut } from "next-auth/react";
 import Alert from "../components/Alert";
@@ -111,10 +111,17 @@ export default function IndexPage({
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
-    const { data: stats }: { data: Stats } = await axios(origin + "/api/stats");
+    const authOptions = await createAuthHeaders(context);
+    const { data: stats }: { data: Stats } = await axios(
+      origin + "/api/stats",
+      authOptions
+    );
 
     if (session?.user.admin) {
-      const { data: settings } = await axios(origin + "/api/settings");
+      const { data: settings } = await axios(
+        origin + "/api/settings",
+        authOptions
+      );
       return {
         props: {
           settings,

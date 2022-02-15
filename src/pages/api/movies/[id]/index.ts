@@ -1,5 +1,6 @@
 import { cleanActors, cleanMovie } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
+import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
 
 import axios from "axios";
 import camelcaseKeys from "camelcase-keys";
@@ -7,6 +8,7 @@ import camelcaseKeys from "camelcase-keys";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const Movie = async (req: NextApiRequest, res: NextApiResponse) => {
+  isAuthenticatedAPIRoute(req, res);
   if (req.method === "POST") {
     return;
   }

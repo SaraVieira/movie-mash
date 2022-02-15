@@ -1,4 +1,5 @@
 import { cleanMovies } from "@/src/helpers/movies";
+import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
 
 import axios from "axios";
 import camelcaseKeys from "camelcase-keys";
@@ -6,6 +7,7 @@ import camelcaseKeys from "camelcase-keys";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const Search = async (req: NextApiRequest, res: NextApiResponse) => {
+  isAuthenticatedAPIRoute(req, res);
   if (req.method === "POST") {
     return;
   }

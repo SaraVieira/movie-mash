@@ -1,4 +1,5 @@
-import { getSession } from "next-auth/react";
+import { encode, getToken } from "next-auth/jwt";
+import { getCsrfToken, getSession } from "next-auth/react";
 import { ERROR_MESSAGES } from "../constants/erorrs";
 
 const signInRedirect = {
@@ -50,7 +51,6 @@ export async function validateSessionAndFetch(context, fetcherFn) {
   if (!session) {
     return signInRedirect;
   }
-
   return fetcherFn(session);
 }
 
@@ -84,4 +84,20 @@ export const adminOnlyAPIRoute = async (req, res) => {
 
 export function isAdmin(session) {
   return session?.user?.admin || null;
+}
+
+export async function createAuthHeaders(context) {
+  const token = await getToken(context);
+  const encodedToken = await encode({
+    token: token,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+  const csrfToken = await getCsrfToken(context);
+  return {
+    withCredentials: true,
+    headers: {
+      Authentication: "Bearer " + encodedToken,
+      Cookie: `next-auth.csrf-token=${csrfToken}; next-auth.callback-url=${process.env.NEXTAUTH_URL}%2Fsignin; next-auth.session-token=${encodedToken}`,
+    },
+  };
 }
