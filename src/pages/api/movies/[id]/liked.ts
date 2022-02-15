@@ -1,3 +1,4 @@
+import { getGenresToCreate } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -7,17 +8,29 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
   const { id }: { id?: string } = req.query;
-  const { liked } = req.body;
+  const movie = req.body;
 
   try {
     const data = await prisma.movies.findUnique({ where: { id } });
 
     if (!data) {
+      const genresToCreate = await getGenresToCreate(movie, prisma);
+
       await prisma.movies.create({
         data: {
-          id,
-          liked,
-          watchlist: false,
+          ...movie,
+          id: id.toString(),
+          backdrops: {
+            create: movie.backdrops,
+          },
+          posters: {
+            create: movie.posters,
+          },
+          genres: {
+            createMany: {
+              data: genresToCreate,
+            },
+          },
         },
       });
     } else {
@@ -26,12 +39,12 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
           id,
         },
         data: {
-          liked,
+          liked: movie.liked,
           watchlist: false,
         },
       });
     }
-    res.json({ id, liked });
+    res.json({ id });
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);

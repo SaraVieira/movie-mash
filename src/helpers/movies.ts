@@ -19,11 +19,10 @@ const appendGenres = async (movies) => {
   return movies
     .map((movie) => ({
       ...movie,
-      genres: movie.genre_ids
-        .map((id) => ({
-          [id]: genres.find((g) => g.id === id).name,
-        }))
-        .reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+      genres: movie.genre_ids.map((id) => ({
+        id,
+        name: genres.find((g) => g.id === id).name,
+      })),
     }))
     .map((m) => omit(m, "genre_ids"));
 };
@@ -80,4 +79,26 @@ export const getStars = (a) => {
     starsFull: Array.from(Array(value).keys()),
     starsEmpty: Array.from(Array(5 - value).keys()),
   };
+};
+
+export const getGenresIDs = async (movie, prisma) => {
+  const existingGenres = await prisma.genre.findMany({
+    where: {
+      id: {
+        in: movie.genres.map((m) => m.id),
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+  const existingGenresIDs = existingGenres.map((g) => g.id);
+
+  return existingGenresIDs;
+};
+
+export const getGenresToCreate = async (movie, prisma) => {
+  const existingIds = await getGenresIDs(movie, prisma);
+
+  return movie.genres.filter((genre) => !existingIds.includes(genre.id));
 };

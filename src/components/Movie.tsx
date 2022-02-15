@@ -70,9 +70,7 @@ export const Movie = (movie: MovieSmall) => {
           </span>
           <div className="flex text-xs text-white text-opacity-50 justify-between items-center">
             <span className="max-w-[70%]">
-              {isArray(movie.genres)
-                ? movie.genres.map((genre) => genre.name).join(" | ")
-                : Object.values(movie.genres).join(" | ")}
+              {movie.genres.map((genre) => genre.name).join(" | ")}
             </span>
             {date}
           </div>

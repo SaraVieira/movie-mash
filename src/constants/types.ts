@@ -13,8 +13,9 @@ export type MovieSmall = {
   posters: posterSizes;
   backdrops: backdropSizes;
   genres: {
-    [id: string]: string;
-  };
+    id: number;
+    name: string;
+  }[];
   seen: boolean | null;
   liked: boolean | null;
   disliked: boolean | null;

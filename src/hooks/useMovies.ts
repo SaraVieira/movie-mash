@@ -24,7 +24,7 @@ export const useMovies = ({
   initialMovies: MoviesResponse;
   page: number;
 }): { data: MoviesResponse; loading: boolean } => {
-  const { data, isLoading, isFetching } = useQuery(
+  const { data, isLoading } = useQuery(
     ["movies", activeTab, page],
     async () => {
       const { data: fetchedMovies } = await axios(
@@ -40,5 +40,5 @@ export const useMovies = ({
     }
   );
 
-  return { data, loading: isLoading || isFetching };
+  return { data, loading: isLoading };
 };

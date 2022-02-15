@@ -1,18 +1,19 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { FullMovie } from "../constants/types";
+import { FullMovie, MovieSmall } from "../constants/types";
 
-export const useMovieWatchlistToggle = ({ id }: { id: string }) => {
+export const useMovieWatchlistToggle = (movie: MovieSmall) => {
   const queryClient = useQueryClient();
 
   const onMovieWatchlistToggle = useMutation(
     (watchlist: boolean) =>
-      axios.post(`/api/movies/${id}/watchlist`, {
+      axios.post(`/api/movies/${movie.id}/watchlist`, {
+        ...movie,
         watchlist,
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["movie", id]);
+        queryClient.invalidateQueries(["movie", movie.id]);
         queryClient.invalidateQueries("movies");
       },
     }
@@ -20,17 +21,18 @@ export const useMovieWatchlistToggle = ({ id }: { id: string }) => {
 
   return onMovieWatchlistToggle;
 };
-export const useLikeMovieToggled = ({ id }: { id: string }) => {
+export const useLikeMovieToggled = (movie: MovieSmall) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
     (liked: boolean) =>
-      axios.post(`/api/movies/${id}/liked`, {
+      axios.post(`/api/movies/${movie.id}/liked`, {
+        ...movie,
         liked,
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["movie", id]);
+        queryClient.invalidateQueries(["movie", movie.id]);
         queryClient.invalidateQueries("movies");
       },
     }
@@ -39,17 +41,18 @@ export const useLikeMovieToggled = ({ id }: { id: string }) => {
   return mutation;
 };
 
-export const useDislikeMovieToggled = ({ id }: { id: string }) => {
+export const useDislikeMovieToggled = (movie: MovieSmall) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
     (disliked: boolean) =>
-      axios.post(`/api/movies/${id}/disliked`, {
+      axios.post(`/api/movies/${movie.id}/disliked`, {
+        ...movie,
         disliked,
       }),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["movie", id]);
+        queryClient.invalidateQueries(["movie", movie.id]);
         queryClient.invalidateQueries("movies");
       },
     }

@@ -56,10 +56,53 @@ model VerificationToken {
 }
 
 model Movies {
-    id        String   @id
-    seen      Boolean?
-    liked     Boolean?
-    disliked  Boolean?
-    watchlist Boolean?
-    comments  String?
+    id               String      @id
+    seen             Boolean?
+    liked            Boolean?
+    disliked         Boolean?
+    watchlist        Boolean?
+    comments         String?
+    adult            Boolean
+    originalLanguage String
+    originalTitle    String
+    overview         String
+    popularity       Float
+    releaseDate      String
+    title            String
+    video            Boolean
+    voteAverage      Float
+    voteCount        Int
+    posters          Posters[]
+    backdrops        Backdrops[]
+    genres           Genre[]
+}
+
+model Backdrops {
+    id       Int     @id @default(autoincrement())
+    w300     String?
+    w780     String?
+    w1280    String?
+    original String?
+    Movies   Movies? @relation(fields: [moviesId], references: [id])
+    moviesId String?
+}
+
+model Posters {
+    id       Int     @id @default(autoincrement())
+    w92      String?
+    w154     String?
+    w185     String?
+    w342     String?
+    w500     String?
+    w780     String?
+    original String?
+    Movies   Movies? @relation(fields: [moviesId], references: [id])
+    moviesId String?
+}
+
+model Genre {
+    id       Int     @id
+    name     String
+    Movies   Movies? @relation(fields: [moviesId], references: [id])
+    moviesId String?
 }

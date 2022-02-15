@@ -13,11 +13,9 @@ import Tippy from "@tippyjs/react";
 import { MovieSmall } from "../constants/types";
 
 export const MovieActions = (movie: MovieSmall) => {
-  const mutation = useMovieWatchlistToggle({
-    id: movie.id,
-  });
-  const likeMovie = useLikeMovieToggled({ id: movie.id });
-  const dislikeMovie = useDislikeMovieToggled({ id: movie.id });
+  const mutation = useMovieWatchlistToggle(movie);
+  const likeMovie = useLikeMovieToggled(movie);
+  const dislikeMovie = useDislikeMovieToggled(movie);
   return (
     <section className="flex items-center justify-center my-4">
       <Tippy

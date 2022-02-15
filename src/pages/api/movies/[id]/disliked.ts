@@ -1,3 +1,4 @@
+import { getGenresToCreate } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
 
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -7,17 +8,29 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
   const { id }: { id?: string } = req.query;
-  const { disliked } = req.body;
+  const movie = req.body;
 
   try {
     const data = await prisma.movies.findUnique({ where: { id } });
 
     if (!data) {
+      const genresToCreate = await getGenresToCreate(movie, prisma);
+
       await prisma.movies.create({
         data: {
-          id,
-          disliked,
-          watchlist: false,
+          ...movie,
+          id: id.toString(),
+          backdrops: {
+            create: movie.backdrops,
+          },
+          posters: {
+            create: movie.posters,
+          },
+          genres: {
+            createMany: {
+              data: genresToCreate,
+            },
+          },
         },
       });
     } else {
@@ -26,12 +39,12 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
           id,
         },
         data: {
-          disliked,
+          disliked: movie.disliked,
           watchlist: false,
         },
       });
     }
-    res.json({ id, disliked });
+    res.json({ id });
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);
