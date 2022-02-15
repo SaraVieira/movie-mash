@@ -93,13 +93,13 @@ export async function createAuthHeaders(context) {
     secret: process.env.NEXTAUTH_SECRET,
   });
   const csrfToken = await getCsrfToken(context);
+  const url = encodeURIComponent(
+    process.env.NEXTAUTH_URL || "http://localhost:3000"
+  );
   return {
     withCredentials: true,
     headers: {
-      Authentication: "Bearer " + encodedToken,
-      Cookie: `next-auth.csrf-token=${csrfToken}; next-auth.callback-url=${encodeURIComponent(
-        process.env.NEXTAUTH_URL
-      )}%2Fsignin; next-auth.session-token=${encodedToken}`,
+      Cookie: `next-auth.csrf-token=${csrfToken}; next-auth.callback-url=${url}%2Fsignin; next-auth.session-token=${encodedToken}`,
     },
   };
 }
