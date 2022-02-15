@@ -11,7 +11,7 @@ const SignUp = async (req: NextApiRequest, res: NextApiResponse) => {
   const data = req.body;
 
   const { email, password } = data;
-
+  const users = await prisma.user.count();
   const existingUser = await prisma.user.findFirst({
     where: {
       email,
@@ -29,6 +29,7 @@ const SignUp = async (req: NextApiRequest, res: NextApiResponse) => {
     data: {
       email: email,
       password: hashedPassword,
+      role: users ? "VIEWER" : "ADMIN",
     },
   });
 

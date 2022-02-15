@@ -124,3 +124,6 @@ export type Stats = {
   watched: number;
   watchlist: number;
 };
+export type Settings = {
+  allowRegistration: boolean;
+};

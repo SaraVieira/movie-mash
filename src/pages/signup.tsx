@@ -86,12 +86,18 @@ const SignUp = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const data = await prisma.user.findMany({
+  const users = await prisma.user.findMany({
     select: {
       email: true,
     },
   });
-  if (data.length) {
+  const allowRegistrationDB = await prisma.settings.findFirst({
+    where: {
+      allowRegistration: true,
+    },
+  });
+  const allowRegistration = allowRegistrationDB || !users;
+  if (!allowRegistration) {
     return {
       redirect: {
         destination: "/",

@@ -8,18 +8,22 @@ import { signOut } from "next-auth/react";
 import Alert from "../components/Alert";
 import { useState } from "react";
 import { Button } from "../components/Button";
-import { Stats } from "../constants/types";
+import { Settings, Stats } from "../constants/types";
+import { useSettings, useToggleSettings } from "../hooks/useSettings";
 
 export default function IndexPage({
   stats,
   session,
+  settings: initialSettings = { allowRegistration: false },
 }: {
+  settings: Settings;
   stats: Stats;
-  session: { user: { email: string } };
+  session: { user: { email: string; admin: boolean } };
 }) {
+  const { settings } = useSettings(initialSettings);
+  const mutation = useToggleSettings(settings);
   const { watched, watchlist } = stats;
   const [showAlert, setShowAlert] = useState(false);
-
   const wipeData = async () => {
     await axios.post("/api/movies/wipe");
     setShowAlert(false);
@@ -72,6 +76,26 @@ export default function IndexPage({
         </div>
       </div>
 
+      {session.user.admin && (
+        <div className="flex justify-center">
+          <label
+            htmlFor="toggle-example-checked"
+            className="flex relative items-center mb-4 cursor-pointer"
+          >
+            <input
+              type="checkbox"
+              id="toggle-example-checked"
+              className="sr-only"
+              checked={settings.allowRegistration}
+              onChange={() => mutation.mutateAsync(!settings.allowRegistration)}
+            />
+            <div className="w-11 h-6 bg-gray-200 rounded-full border border-gray-200 toggle-bg dark:bg-gray-700 dark:border-gray-600"></div>
+            <span className="ml-3 text-sm font-medium text-gray-white">
+              Allow Registrations
+            </span>
+          </label>
+        </div>
+      )}
       <Button
         className="mb-14"
         variant="secondary"
@@ -88,8 +112,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
     const { origin } = absoluteUrl(context.req);
     const { data: stats }: { data: Stats } = await axios(origin + "/api/stats");
+    const { data: settings } = await axios(origin + "/api/settings");
+
     return {
-      props: { session, ...stats },
+      props: {
+        settings,
+        session,
+        ...stats,
+      },
     };
   });
 };

@@ -7,8 +7,10 @@ import { useSignIn } from "../stores/useSignin";
 import { GetServerSideProps } from "next";
 import { Button } from "../components/Button";
 import { XCircleIcon } from "@heroicons/react/outline";
+import prisma from "@/src/helpers/prisma";
+import Link from "next/link";
 
-function SignIn() {
+function SignIn({ allowRegistration }) {
   const { isFilledIn, setPassword, setEmail, error, signIn, signingIn } =
     useSignIn();
   const router = useRouter();
@@ -59,11 +61,27 @@ function SignIn() {
           Login
         </Button>
       </form>
+      {allowRegistration && (
+        <Link href="/signup">
+          <a className="block mt-6 text-center text-opacity-50 hover:text-opacity-100 text-white disabled:opacity-50">
+            Sign Up
+          </a>
+        </Link>
+      )}
     </Layout>
   );
 }
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
+  const allowRegistrationDB = await prisma.settings.findFirst({
+    where: {
+      allowRegistration: true,
+    },
+  });
+
+  const users = await prisma.user.count();
+
+  const allowRegistration = allowRegistrationDB || !users;
   if (session) {
     return {
       redirect: {
@@ -73,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
   return {
-    props: {},
+    props: { allowRegistration },
   };
 };
 

@@ -6,6 +6,19 @@ import prisma from "@/src/helpers/prisma";
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
+  callbacks: {
+    async session({ session }) {
+      const idUser = await prisma.user.findUnique({
+        where: {
+          email: session.user.email,
+        },
+      });
+      // @ts-ignore
+      session.user.admin = idUser.role === "ADMIN";
+
+      return session;
+    },
+  },
   providers: [
     CredentialsProvider({
       async authorize(

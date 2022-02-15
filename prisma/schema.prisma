@@ -45,6 +45,18 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    role          Role      @default(VIEWER)
+    movies        Movies[]
+}
+
+model Settings {
+    id                String  @id @default(cuid())
+    allowRegistration Boolean @default(false)
+}
+
+enum Role {
+    ADMIN
+    VIEWER
 }
 
 model VerificationToken {
@@ -75,6 +87,8 @@ model Movies {
     posters          Posters[]
     backdrops        Backdrops[]
     genres           Genre[]
+    User             User?       @relation(fields: [userId], references: [id])
+    userId           String?
 }
 
 model Backdrops {

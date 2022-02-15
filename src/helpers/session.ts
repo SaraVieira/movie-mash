@@ -66,3 +66,22 @@ export async function isAuthenticatedAPIRoute(req, res) {
 export function isAuthenticated(session) {
   return Boolean(session);
 }
+
+export const adminOnlyAPIRoute = async (req, res) => {
+  const session = await getSession({
+    req,
+  });
+
+  // @ts-ignore
+  if (!session?.user?.admin) {
+    res.status(401).json({
+      error: ERROR_MESSAGES.ADMIN_REQUIRED,
+    });
+
+    return;
+  }
+};
+
+export function isAdmin(session) {
+  return session?.user?.admin || null;
+}
