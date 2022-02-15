@@ -86,7 +86,7 @@ const SignUp = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const users = await prisma.user.findMany({
+  const users = await prisma.user.findFirst({
     select: {
       email: true,
     },
