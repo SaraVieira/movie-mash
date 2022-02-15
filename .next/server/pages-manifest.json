@@ -1,0 +1,10 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/_error": "pages/_error.js",
+  "/api/movies/watched": "pages/api/movies/watched.js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
+  "/watched": "pages/watched.js",
+  "/api/movies/watchlist": "pages/api/movies/watchlist.js",
+  "/watchlist": "pages/watchlist.js"
+}

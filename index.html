@@ -78,9 +78,11 @@
         class="border-b-[1px] border-brand-gray600 border-opacity-20 pb-[150px] mb-12"
       >
         <div class="max-w-[90%] lg:max-w-7xl m-auto">
-          <div class="mt-[120px] grid grid-cols-[1fr_330px] justify-between">
-            <h1 class="text-6xl font-bold">MovieMash</h1>
-            <div>
+          <div
+            class="mt-[120px] grid sm:grid-cols-[1fr_330px] justify-center md:justify-between"
+          >
+            <h1 class="text-6xl font-bold hidden md:block">MovieMash</h1>
+            <div class="flex md:block flex-col justify-center">
               <p class="text-lg text-brand-gray500">
                 MovieMash is an open source self hostable movie tracker.
               </p>
@@ -96,6 +98,40 @@
             alt="devices"
             class="max-w-[90%] block m-auto mt-[150px]"
           />
+        </div>
+      </section>
+      <section
+        class="border-b-[1px] border-brand-gray600 border-opacity-20 pb-[150px] mb-12"
+      >
+        <div class="max-w-[90%] lg:max-w-7xl m-auto">
+          <h2 class="text-5xl font-semibold mb-4">Features</h2>
+          <p class="text-brand-gray500 text-xl">
+            What is this and why should I care?
+          </p>
+          <div x-data class="grid md:grid-cols-2 gap-12 lg:grid-cols-3 mt-8">
+            <template x-for="feature in $store.features.items">
+              <div
+                class="flex flex-col px-8 py-6 border-[1px] rounded-xl border-brand-gray600 border-opacity-20 relative"
+              >
+                <template x-if="feature.future">
+                  <div
+                    class="bg-red absolute w-full h-full top-0 left-0 bg-brand-gray900 bg-opacity-70 flex items-center justify-center text-lg font-bold"
+                  >
+                    V2
+                  </div></template
+                >
+                <div class="text-brand-gray500" x-html="feature.icon"></div>
+                <span
+                  class="font-semibold text-xl my-3"
+                  x-html="feature.name"
+                ></span>
+                <span
+                  class="text-brand-gray300"
+                  x-html="feature.description"
+                ></span>
+              </div>
+            </template>
+          </div>
         </div>
       </section>
     </main>
