@@ -33,6 +33,8 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     res.json({ id, disliked });
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     res.status(500).json(e);
   }
 };

@@ -31,6 +31,8 @@ const Watchlist = async (req: NextApiRequest, res: NextApiResponse) => {
     }
     res.json({ id, watchlist });
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     res.status(500).json(e);
   }
 };

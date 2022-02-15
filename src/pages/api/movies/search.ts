@@ -27,6 +27,8 @@ const Search = async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.json(camelcaseKeys(newData, { deep: true }));
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
     res.status(500).json(e);
   }
 };
