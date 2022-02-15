@@ -28,7 +28,7 @@ const Popular = async (req: NextApiRequest, res: NextApiResponse) => {
     const ourMovies = await prisma.movies.findMany({
       where: {
         userId: session.user.id,
-        id: {
+        tmdbId: {
           in: popularMovies.results.map((movie) => movie.id.toString()),
         },
       },
@@ -42,8 +42,9 @@ const Popular = async (req: NextApiRequest, res: NextApiResponse) => {
           ...newData,
           results: newData.results.map((m) => ({
             ...m,
-            ...(ourMovies.find((mov) => parseInt(mov.id) === parseInt(m.id)) ||
-              {}),
+            ...(ourMovies.find(
+              (mov) => parseInt(mov.tmdbId) === parseInt(m.id)
+            ) || {}),
           })),
         },
         { deep: true }

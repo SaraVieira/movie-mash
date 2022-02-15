@@ -58,7 +58,10 @@ export const cleanMovies = async (movies) => {
 
   return {
     ...movies,
-    results: withGenres,
+    results: withGenres.map((m) => ({
+      ...m,
+      tmdbId: m.id,
+    })),
   };
 };
 

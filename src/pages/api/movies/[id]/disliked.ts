@@ -2,6 +2,7 @@ import { NewSession } from "@/src/constants/types";
 import { getGenresToCreate } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
 import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
+import { omit } from "lodash-es";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
@@ -18,18 +19,19 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
   const movie = req.body;
 
   try {
-    const data = await prisma.movies.findUnique({
-      where: { id },
+    const data = await prisma.movies.findFirst({
+      where: { tmdbId: id.toString(), userId: session.user.id },
     });
 
     if (!data) {
       const genresToCreate = await getGenresToCreate(movie, prisma);
 
       await prisma.movies.create({
+        // @ts-ignore
         data: {
-          ...movie,
+          ...omit(movie, "id"),
           userId: session.user.id,
-          id: id.toString(),
+          tmdbId: id.toString(),
           backdrops: {
             create: movie.backdrops,
           },
@@ -46,7 +48,7 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
     } else {
       await prisma.movies.update({
         where: {
-          id,
+          id: data.id.toString(),
         },
         data: {
           disliked: movie.disliked,

@@ -14,13 +14,13 @@ export const Movie = (movie: MovieSmall) => {
   const [showActions, setShowActions] = useState(false);
   const date = formattedDate(movie.releaseDate || "");
   const { starsEmpty = [], starsFull = [] } = getStars(movie.voteAverage);
-
+  console.log(movie);
   return (
     <li
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      <Link href={`/movies/${movie.id}`}>
+      <Link href={`/movies/${movie.tmdbId}`}>
         <a>
           <div className="relative">
             {showActions && (

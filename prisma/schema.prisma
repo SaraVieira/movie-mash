@@ -68,7 +68,8 @@ model VerificationToken {
 }
 
 model Movies {
-    id               String      @id
+    id               String      @id @default(cuid())
+    tmdbId           String
     seen             Boolean?
     liked            Boolean?
     disliked         Boolean?

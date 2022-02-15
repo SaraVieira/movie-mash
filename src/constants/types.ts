@@ -1,6 +1,7 @@
 import { ISODateString } from "next-auth";
 
 export type MovieSmall = {
+  tmdbId: string;
   adult: boolean;
   id: string;
   originalLanguage: string;
