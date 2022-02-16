@@ -81,13 +81,13 @@ export default function IndexPage({
             htmlFor="toggle-example-checked"
             className="flex relative items-center mb-4 cursor-pointer"
           >
-            <input
+            {/* <input
               type="checkbox"
               id="toggle-example-checked"
               className="sr-only"
               checked={settings.allowRegistration}
               onChange={() => mutation.mutateAsync(!settings.allowRegistration)}
-            />
+            /> */}
             <div className="w-11 h-6 bg-gray-200 rounded-full border border-gray-200 toggle-bg dark:bg-gray-700 dark:border-gray-600"></div>
             <span className="ml-3 text-sm font-medium text-gray-white">
               Allow Registrations
