@@ -2,8 +2,8 @@ import axios from "axios";
 import { GetServerSideProps } from "next";
 
 import Layout from "../components/layout";
-import { createAuthHeaders, validateSessionAndFetch } from "../helpers/session";
-import { absoluteUrl } from "../helpers/absolute-url";
+import { validateSessionAndFetch } from "../helpers/session";
+// import { absoluteUrl } from "../helpers/absolute-url";
 import { signOut } from "next-auth/react";
 import Alert from "../components/Alert";
 import { useState } from "react";
@@ -14,13 +14,12 @@ import { useSettings, useToggleSettings } from "../hooks/useSettings";
 export default function IndexPage({
   stats,
   session,
-  settings: initialSettings = { allowRegistration: false },
 }: {
   settings: Settings;
   stats: Stats;
   session: { user: { email: string; admin: boolean } };
 }) {
-  const { settings } = useSettings(initialSettings, session);
+  const { settings } = useSettings();
   const mutation = useToggleSettings(settings);
   const { watched, watchlist } = stats;
   const [showAlert, setShowAlert] = useState(false);
@@ -110,31 +109,31 @@ export default function IndexPage({
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return validateSessionAndFetch(context, async (session) => {
-    const { origin } = absoluteUrl(context.req);
-    const authOptions = await createAuthHeaders(context);
-    const { data: stats }: { data: Stats } = await axios(
-      origin + "/api/stats",
-      authOptions
-    );
+    // const { origin } = absoluteUrl(context.req);
+    // const authOptions = await createAuthHeaders(context);
+    // const { data: stats }: { data: Stats } = await axios(
+    //   origin + "/api/stats",
+    //   authOptions
+    // );
 
-    if (session?.user.admin) {
-      const { data: settings } = await axios(
-        origin + "/api/settings",
-        authOptions
-      );
-      return {
-        props: {
-          settings,
-          session,
-          ...stats,
-        },
-      };
-    }
+    // if (session?.user.admin) {
+    //   const { data: settings } = await axios(
+    //     origin + "/api/settings",
+    //     authOptions
+    //   );
+    //   return {
+    //     props: {
+    //       settings,
+    //       session,
+    //       ...stats,
+    //     },
+    //   };
+    // }
     return {
       props: {
         settings: {},
         session,
-        ...stats,
+        stats: {},
       },
     };
   });

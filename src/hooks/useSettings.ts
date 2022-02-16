@@ -2,22 +2,18 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Settings } from "../constants/types";
 
-export const useSettings = (
-  initialSettings: Settings,
-  session: any
-): {
+//   initialSettings: Settings,
+// session: any
+
+export const useSettings = (): {
   settings: Settings;
   loading: boolean;
 } => {
-  const { data: settings, isLoading } = useQuery(
-    "settings",
-    async () => {
-      const { data: settings } = await axios(`/api/settings`);
+  const { data: settings, isLoading } = useQuery("settings", async () => {
+    const { data: settings } = await axios(`/api/settings`);
 
-      return settings;
-    },
-    { initialData: initialSettings, enabled: session?.user?.admin }
-  );
+    return settings;
+  });
 
   return { settings, loading: isLoading };
 };
