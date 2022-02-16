@@ -3,7 +3,7 @@
 MovieMash is an self-hosted open source movie tracker
 
 - [Website](https://moviemash.dotenv.dev/)
-- [Demo](https://demo.moviemash.dotenv.dev/) (admin/admin)
+- [Demo](https://demo.moviemash.dotenv.dev/) (admin@dotenv.dev/admin123)
 
 ## Running Locally:
 
