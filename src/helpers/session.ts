@@ -1,6 +1,7 @@
 import { encode, getToken } from "next-auth/jwt";
-import { getCsrfToken, getSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { ERROR_MESSAGES } from "../constants/erorrs";
+import prisma from "@/src/helpers/prisma";
 
 const signInRedirect = {
   redirect: {
@@ -55,12 +56,19 @@ export async function validateSessionAndFetch(context, fetcherFn) {
 }
 
 export async function isAuthenticatedAPIRoute(req, res) {
-  const session = await getSession({ req });
-  return isAuthenticated(session)
-    ? true
-    : res.status(401).json({
-        error: ERROR_MESSAGES.LOGIN_REQUIRED,
-      });
+  const token = await getToken({ req });
+  if (isAuthenticated(token?.email)) {
+    const user = await prisma.user.findFirst({
+      where: { email: token.email },
+    });
+
+    return user;
+  } else {
+    res.status(401).json({
+      error: ERROR_MESSAGES.LOGIN_REQUIRED,
+    });
+    return;
+  }
 }
 
 export function isAuthenticated(session) {
@@ -87,19 +95,15 @@ export function isAdmin(session) {
 }
 
 export async function createAuthHeaders(context) {
-  const token = await getToken(context);
+  const token = await getToken({ req: context.req });
   const encodedToken = await encode({
     token: token,
     secret: process.env.NEXTAUTH_SECRET,
   });
-  const csrfToken = await getCsrfToken(context);
-  const url = encodeURIComponent(
-    process.env.NEXTAUTH_URL || "http://localhost:3000"
-  );
   return {
     withCredentials: true,
     headers: {
-      Cookie: `next-auth.csrf-token=${csrfToken}; next-auth.callback-url=${url}%2Fsignin; next-auth.session-token=${encodedToken}`,
+      Authorization: `Bearer ${encodedToken}`,
     },
   };
 }

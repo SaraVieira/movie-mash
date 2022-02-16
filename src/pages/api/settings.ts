@@ -1,10 +1,10 @@
 import prisma from "@/src/helpers/prisma";
-import { adminOnlyAPIRoute } from "@/src/helpers/session";
+import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
 
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const New = async (req: NextApiRequest, res: NextApiResponse) => {
-  adminOnlyAPIRoute(req, res);
+  await isAuthenticatedAPIRoute(req, res);
   const existingSetting = await prisma.settings.findFirst();
   if (req.method !== "POST") {
     res.json(existingSetting || {});

@@ -1,4 +1,3 @@
-import { NewSession } from "@/src/constants/types";
 import { cleanMovies } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
 import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
@@ -7,13 +6,9 @@ import axios from "axios";
 import camelcaseKeys from "camelcase-keys";
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
 
 const New = async (req: NextApiRequest, res: NextApiResponse) => {
-  isAuthenticatedAPIRoute(req, res);
-  const session: NewSession = await getSession({
-    req,
-  });
+  const user = await isAuthenticatedAPIRoute(req, res);
   if (req.method === "POST") {
     return;
   }
@@ -27,7 +22,7 @@ const New = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const ourMovies = await prisma.movies.findMany({
       where: {
-        userId: session.user.id,
+        userId: user.id,
         tmdbId: {
           in: newMovies.results.map((movie) => movie.id.toString()),
         },

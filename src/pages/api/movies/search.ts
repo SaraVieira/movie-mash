@@ -7,7 +7,7 @@ import camelcaseKeys from "camelcase-keys";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const Search = async (req: NextApiRequest, res: NextApiResponse) => {
-  isAuthenticatedAPIRoute(req, res);
+  await isAuthenticatedAPIRoute(req, res);
   if (req.method === "POST") {
     return;
   }

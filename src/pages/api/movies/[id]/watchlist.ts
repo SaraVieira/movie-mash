@@ -1,16 +1,11 @@
-import { NewSession } from "@/src/constants/types";
 import { prepareDataForMovieSave } from "@/src/helpers/movies";
 import prisma from "@/src/helpers/prisma";
 import { isAuthenticatedAPIRoute } from "@/src/helpers/session";
 
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
 
 const Watchlist = async (req: NextApiRequest, res: NextApiResponse) => {
-  isAuthenticatedAPIRoute(req, res);
-  const session: NewSession = await getSession({
-    req,
-  });
+  const user = await isAuthenticatedAPIRoute(req, res);
   if (req.method !== "POST") {
     return;
   }
@@ -19,11 +14,11 @@ const Watchlist = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const data = await prisma.movies.findFirst({
-      where: { tmdbId: id.toString(), userId: session.user.id },
+      where: { tmdbId: id.toString(), userId: user.id },
     });
     const createData = await prepareDataForMovieSave({
       movie,
-      session,
+      user,
       id,
       prisma,
     });

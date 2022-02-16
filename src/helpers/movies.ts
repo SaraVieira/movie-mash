@@ -106,12 +106,7 @@ export const getGenresToCreate = async (movie, prisma) => {
   return movie.genres.filter((genre) => !existingIds.includes(genre.id));
 };
 
-export const prepareDataForMovieSave = async ({
-  movie,
-  session,
-  id,
-  prisma,
-}) => {
+export const prepareDataForMovieSave = async ({ movie, user, id, prisma }) => {
   const genresToCreate = await getGenresToCreate(movie, prisma);
 
   return {
@@ -135,7 +130,7 @@ export const prepareDataForMovieSave = async ({
       ]),
       User: {
         connect: {
-          id: session.user.id,
+          id: user.id,
         },
       },
       tmdbId: id.toString(),
