@@ -1,15 +1,16 @@
-## NextJS Starter
+## MovieMash
 
-A next js starter I use that includes:
+MovieMash is an self-hosted open source movie tracker
 
-- NextAuth with Username and Password
-- Tailwind
-- Prisma
-- Zustand
+- [Website](https://moviemash.dotenv.dev/)
+- [Demo](https://demo.moviemash.dotenv.dev/) (admin/admin)
 
-Also includes
+## Running Locally:
 
-- TS with strict mode off
-- Prettier
-- Eslint
-- Lint Staged
+Fill in your keys, including the [TheMovieDB Key](https://developers.themoviedb.org/3/getting-started/authentication) and then you can run
+
+```
+yarn
+npx prisma migrate dev
+yarn dev
+```
