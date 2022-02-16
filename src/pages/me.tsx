@@ -9,7 +9,8 @@ import Alert from "../components/Alert";
 import { useState } from "react";
 import { Button } from "../components/Button";
 import { Settings, Stats } from "../constants/types";
-import { useSettings, useToggleSettings } from "../hooks/useSettings";
+import { useSettings } from "../hooks/useSettings";
+// import { useSettings, useToggleSettings } from "../hooks/useSettings";
 
 export default function IndexPage({
   stats,
@@ -20,7 +21,7 @@ export default function IndexPage({
   session: { user: { email: string; admin: boolean } };
 }) {
   const { settings } = useSettings();
-  const mutation = useToggleSettings(settings);
+  // const mutation = useToggleSettings(settings);
   const { watched, watchlist } = stats;
   const [showAlert, setShowAlert] = useState(false);
   const wipeData = async () => {
@@ -31,6 +32,7 @@ export default function IndexPage({
 
   return (
     <Layout searchHeader>
+      {JSON.stringify(settings)}
       <Alert
         primaryButtonText="Wipe"
         open={showAlert}
