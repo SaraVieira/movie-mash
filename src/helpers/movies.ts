@@ -49,7 +49,7 @@ const appendImageUrl = (movies) =>
 export const cleanMovie = (movie) => {
   const [withImageUrl] = appendImageUrl([movie]);
 
-  return withImageUrl;
+  return { ...withImageUrl, tmdbId: withImageUrl.id };
 };
 
 export const cleanMovies = async (movies) => {
@@ -104,4 +104,52 @@ export const getGenresToCreate = async (movie, prisma) => {
   const existingIds = await getGenresIDs(movie, prisma);
 
   return movie.genres.filter((genre) => !existingIds.includes(genre.id));
+};
+
+export const prepareDataForMovieSave = async ({
+  movie,
+  session,
+  id,
+  prisma,
+}) => {
+  const genresToCreate = await getGenresToCreate(movie, prisma);
+
+  return {
+    data: {
+      ...omit(movie, [
+        "id",
+        "externalIds",
+        "cast",
+        "videos",
+        "revenue",
+        "runtime",
+        "status",
+        "tagline",
+        "spokenLanguages",
+        "productionCountries",
+        "productionCompanies",
+        "belongsToCollection",
+        "budget",
+        "homepage",
+        "imdbId",
+      ]),
+      User: {
+        connect: {
+          id: session.user.id,
+        },
+      },
+      tmdbId: id.toString(),
+      backdrops: {
+        create: movie.backdrops,
+      },
+      posters: {
+        create: movie.posters,
+      },
+      genres: {
+        createMany: {
+          data: genresToCreate,
+        },
+      },
+    },
+  };
 };
