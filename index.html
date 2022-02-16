@@ -19,8 +19,7 @@
       class="h-[104px] flex justify-between items-center px-12 border-b-[1px] border-brand-gray600 border-opacity-20"
     >
       <svg
-        width="284"
-        height="48"
+        class="h-6"
         viewBox="0 0 284 48"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +68,7 @@
       <a
         href="https://github.com/SaraVieira/movie-mash"
         target="_blank"
-        class="h-[56px] flex items-center justify-center bg-brand-gray700 px-6 rounded-lg"
+        class="h-[56px] flex items-center justify-center bg-brand-gray700 px-6 rounded-lg no-underline"
         >Github</a
       >
     </header>
@@ -84,13 +83,27 @@
             <h1 class="text-6xl font-bold hidden md:block">MovieMash</h1>
             <div class="flex md:block flex-col justify-center">
               <p class="text-lg text-brand-gray500">
-                MovieMash is an open source self hostable movie tracker.
+                MovieMash is an self-hosted open source movie tracker
               </p>
-              <button
-                class="h-[56px] bg-brand-red text-white px-6 rounded-lg mt-6"
+              <a
+                class="h-[56px] leading-[56px] bg-brand-red text-white px-6 rounded-lg mt-6 no-underline inline-block text-center"
+                href="#install"
               >
                 Install it
-              </button>
+              </a>
+              <a
+                class="h-[56px] leading-[56px] text-brand-red px-6 rounded-lg mt-6 no-underline inline-block text-center"
+              >
+                <div
+                  class="relative inline-block text-left border-b-[1px] border-b-brand-gray600 border-dotted tooltip"
+                >
+                  Demo
+                  <div class="top">
+                    <p>Credentials are admin/admin123</p>
+                    <i></i>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
           <img
@@ -136,6 +149,7 @@
       </section>
       <section
         class="border-b-[1px] border-brand-gray600 border-opacity-20 pb-[150px] mb-12"
+        id="install"
       >
         <div class="max-w-[90%] lg:max-w-7xl m-auto">
           <h2 class="text-5xl font-semibold mb-4">Install</h2>
@@ -161,12 +175,6 @@
                 @click="tab = 'second'"
               >
                 Postgres DB
-              </button>
-              <button
-                class="text-left border-b-[1px] border-brand-gray600 border-opacity-20 w-full px-6 py-4"
-                @click="tab = 'third'"
-              >
-                As a docker image
               </button>
             </div>
             <div>
@@ -253,7 +261,6 @@
 
                 <pre>yarn && npx prisma migrate deploy</pre>
               </div>
-              <div x-show="tab === 'third'">Coming soon</div>
             </div>
           </div>
         </div>

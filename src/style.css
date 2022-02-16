@@ -13,3 +13,20 @@ li {
 pre {
   @apply font-mono  bg-brand-gray700 p-2 m-4;
 }
+
+.tooltip .top {
+  @apply bg-brand-gray700 absolute text-white z-50 opacity-0 transition-opacity rounded-md text-xs -top-1 -translate-y-full -translate-x-1/2 left-1/2 visible py-3 px-4 text-center;
+  min-width: 250px;
+}
+
+.tooltip:hover .top {
+  @apply visible opacity-100;
+}
+
+.tooltip .top i {
+  @apply absolute overflow-hidden h-3 -ml-3 w-6 top-full left-1/2;
+}
+
+.tooltip .top i::after {
+  @apply bg-brand-gray700 absolute w-3 h-3 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45 content-[""];
+}
