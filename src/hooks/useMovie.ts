@@ -4,7 +4,6 @@ import { FullMovie, MovieSmall } from "../constants/types";
 
 export const useMovieWatchlistToggle = (movie: MovieSmall) => {
   const queryClient = useQueryClient();
-  console.log(movie);
   const onMovieWatchlistToggle = useMutation(
     (watchlist: boolean) =>
       axios.post(`/api/movies/${movie.tmdbId}/watchlist`, {
