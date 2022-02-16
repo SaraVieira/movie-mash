@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a {
+  @apply underline;
+}
+
+li {
+  @apply mt-2 leading-6;
+}
+
+pre {
+  @apply font-mono  bg-brand-gray700 p-2 m-4;
+}

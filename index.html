@@ -117,9 +117,9 @@
                   <div
                     class="bg-red absolute w-full h-full top-0 left-0 bg-brand-gray900 bg-opacity-70 flex items-center justify-center text-lg font-bold"
                   >
-                    V2
-                  </div></template
-                >
+                    Coming Soon
+                  </div>
+                </template>
                 <div class="text-brand-gray500" x-html="feature.icon"></div>
                 <span
                   class="font-semibold text-xl my-3"
@@ -131,6 +131,130 @@
                 ></span>
               </div>
             </template>
+          </div>
+        </div>
+      </section>
+      <section
+        class="border-b-[1px] border-brand-gray600 border-opacity-20 pb-[150px] mb-12"
+      >
+        <div class="max-w-[90%] lg:max-w-7xl m-auto">
+          <h2 class="text-5xl font-semibold mb-4">Install</h2>
+          <p class="text-brand-gray500 text-xl">
+            How can I get this to the web?
+          </p>
+
+          <div
+            x-data="{ tab: 'first' }"
+            class="block md:grid grid-cols-2 mt-8 gap-12 items-baseline"
+          >
+            <div
+              class="flex-col text-left flex items-center bg-brand-gray700 rounded-lg"
+            >
+              <button
+                class="text-left border-b-[1px] border-brand-gray600 border-opacity-20 w-full px-6 py-4"
+                @click="tab = 'first'"
+              >
+                The App
+              </button>
+              <button
+                class="text-left border-b-[1px] border-brand-gray600 border-opacity-20 w-full px-6 py-4"
+                @click="tab = 'second'"
+              >
+                Postgres DB
+              </button>
+              <button
+                class="text-left border-b-[1px] border-brand-gray600 border-opacity-20 w-full px-6 py-4"
+                @click="tab = 'third'"
+              >
+                As a docker image
+              </button>
+            </div>
+            <div>
+              <div x-show="tab === 'first'">
+                The app itself is built in
+                <a href="https://nextjs.org/" target="_blank">NextJS</a> so to
+                deploy it you can use a myriad of ways.
+
+                <ul class="ml-4 list-disc mt-4 mb-6">
+                  <li>
+                    Using
+                    <a
+                      target="_blank"
+                      href="https://www.netlify.com/blog/2020/11/30/how-to-deploy-next.js-sites-to-netlify/"
+                      >Netlify</a
+                    >
+                  </li>
+                  <li>
+                    Using
+                    <a href="https://vercel.com/solutions/nextjs">Vercel</a>
+                  </li>
+                  <li>
+                    Using
+                    <a
+                      href="https://mariestarck.com/deploy-your-next-js-app-to-heroku-in-5-minutes/"
+                      >Heroku</a
+                    >
+                  </li>
+                </ul>
+                You will need a couple of enviroment variables to get the app up
+                and running:
+
+                <ul class="ml-4 list-disc mt-4">
+                  <li>
+                    <pre class="font-mono inline mx-0">NEXTAUTH_URL</pre>
+                    This is the URL of your application, if you are using docker
+                    it will still be
+                    <pre>http://localhost:3000</pre>
+                  </li>
+                  <li>
+                    <pre class="font-mono inline mx-0">NEXTAUTH_SECRET</pre>
+                    needed for session encryption, you can generate a good token
+                    in the command line using:
+                    <pre>openssl rand -base64 32</pre>
+                  </li>
+                  <li>
+                    <pre class="font-mono inline mx-0">TMDB_KEY</pre>
+                    The app uses the
+                    <a href="https://www.themoviedb.org/">TheMovieDB</a> to get
+                    movie info but accounts and API keys are free and unlimited.
+                    You can see how to get an API key
+                    <a
+                      href="https://developers.themoviedb.org/3/getting-started/authentication"
+                      >on their docs</a
+                    >
+                  </li>
+                  <li>
+                    <pre class="font-mono inline mx-0">DATABASE_URL</pre>
+                    The place where we will save all your sweet movies.
+                  </li>
+                </ul>
+              </div>
+
+              <div x-show="tab === 'second'">
+                To get a postgres database there are a couple of options, some
+                free ones are:
+
+                <ul>
+                  <li>
+                    <a
+                      href="https://dev.to/prisma/how-to-setup-a-free-postgresql-database-on-heroku-1dc1"
+                      >Using Heroku</a
+                    >
+                  </li>
+                  <li>
+                    <a href="https://supabase.com/">Using Supabase</a>
+                  </li>
+                </ul>
+                After your database is set git clone the github project, set the
+                URL of it in the
+                <pre>.env</pre>
+                file and run all the migrations to create the structure prisma
+                needs width:
+
+                <pre>yarn && npx prisma migrate deploy</pre>
+              </div>
+              <div x-show="tab === 'third'">Coming soon</div>
+            </div>
           </div>
         </div>
       </section>

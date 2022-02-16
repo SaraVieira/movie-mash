@@ -57,4 +57,8 @@ Alpine.store("features", {
   ],
 });
 
+Alpine.store("installTabs", {
+  current: "first",
+});
+
 Alpine.start();
