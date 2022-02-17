@@ -5,6 +5,7 @@ const paths = [
 ];
 
 module.exports = {
+  darkMode: "class",
   content: paths,
   plugins: [
     require("@tailwindcss/forms"),

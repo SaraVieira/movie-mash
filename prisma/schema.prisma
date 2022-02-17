@@ -90,6 +90,7 @@ model Movies {
     User             User?       @relation(fields: [userId], references: [id])
     userId           String?
     genres           Int[]
+    insertedAt       DateTime    @default(now())
 }
 
 model Backdrops {

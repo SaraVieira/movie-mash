@@ -108,7 +108,6 @@ export const getGenresToCreate = async (movie, prisma) => {
 };
 
 export const prepareDataForMovieSave = async ({ movie, user, id }) => {
-  const genres = movie.genres.map(({ id }) => id);
   return {
     data: {
       ...omit(movie, [
@@ -133,7 +132,7 @@ export const prepareDataForMovieSave = async ({ movie, user, id }) => {
           id: user.id,
         },
       },
-      genres,
+      genres: movie.genres,
       tmdbId: id.toString(),
       backdrops: {
         create: movie.backdrops,

@@ -16,7 +16,6 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
     const data = await prisma.movies.findFirst({
       where: { tmdbId: id.toString(), userId: user.id },
     });
-
     const createData = await prepareDataForMovieSave({
       movie,
       user,

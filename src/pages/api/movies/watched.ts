@@ -8,14 +8,39 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const New = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await isAuthenticatedAPIRoute(req, res);
-  const { genre } = req.query as { genre: string };
+  const { genre, sort, search } = req.query as {
+    genre: string;
+    sort: string;
+    search: string;
+  };
   if (req.method === "POST") {
     return;
   }
+  const [sortKey, sortValue] = sort.split("-");
 
   try {
     const ourMovies = await prisma.movies.findMany({
+      orderBy: [
+        {
+          [sortKey]: sortValue,
+        },
+      ],
       where: {
+        ...(genre
+          ? {
+              genres: {
+                hasSome: parseInt(genre),
+              },
+            }
+          : {}),
+        ...(search
+          ? {
+              title: {
+                mode: "insensitive",
+                contains: search,
+              },
+            }
+          : {}),
         userId: user.id,
         OR: [
           {

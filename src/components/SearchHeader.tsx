@@ -9,9 +9,15 @@ import classNames from "classnames";
 export const SearchHeader = ({
   open = false,
   value = "",
+  onSearch,
+  required = true,
+  placeholder = "search for a movie",
 }: {
   open?: boolean;
   value?: string;
+  placeholder?: string;
+  onSearch?: any;
+  required?: boolean;
 }) => {
   const [searchOpen, setSearchOpen] = useState(open);
   const searchInput: { current: HTMLInputElement } = useRef();
@@ -20,6 +26,10 @@ export const SearchHeader = ({
 
   const searchMovies = (e) => {
     e.preventDefault();
+    if (onSearch) {
+      onSearch(search);
+      return;
+    }
     if (!search) return;
 
     router.push({
@@ -48,26 +58,31 @@ export const SearchHeader = ({
   }, []);
   return (
     <div className="flex justify-between align-center  mb-8 relative z-10">
-      <Link href="/">
-        <a>
-          <Logo className="h-5" />
-        </a>
-      </Link>
+      {!onSearch && (
+        <Link href="/">
+          <a>
+            <Logo className="h-5" />
+          </a>
+        </Link>
+      )}
       <form
         onSubmit={searchMovies}
         className={classNames(
-          "right-0 mt-[-9px] absolute flex-grow-1 transition",
-          searchOpen ? "w-full md:w-[70%] opacity-1" : "w-0 opacity-0"
+          "flex-grow-1 transition",
+          onSearch ? "" : "absolute right-0 mt-[-9px]",
+          searchOpen
+            ? "w-full md:w-[70%] opacity-1 min-w-[300px]"
+            : "w-0 opacity-0"
         )}
       >
         <Input
           ref={searchInput}
           // @ts-ignore
           value={search}
-          required
+          required={required}
           onChange={(e) => setSearch(e.target.value)}
           type="search"
-          placeholder="search for a movie"
+          placeholder={placeholder}
         />
       </form>
       {!searchOpen && (
