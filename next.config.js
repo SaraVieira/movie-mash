@@ -7,6 +7,7 @@ const withPWA = require("next-pwa");
 const runtimeCaching = require("next-pwa/cache");
 
 const settings = (phase) => ({
+experimental: { scrollRestoration: true },
   pwa: {
     dest: "public",
     runtimeCaching,
