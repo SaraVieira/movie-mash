@@ -21,11 +21,9 @@ const Disliked = async (req: NextApiRequest, res: NextApiResponse) => {
       movie,
       user,
       id,
-      prisma,
     });
     if (!data) {
       // @ts-ignore
-
       await prisma.movies.create(createData);
     } else {
       await prisma.movies.update({

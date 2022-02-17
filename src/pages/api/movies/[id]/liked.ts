@@ -21,7 +21,6 @@ const Liked = async (req: NextApiRequest, res: NextApiResponse) => {
       movie,
       user,
       id,
-      prisma,
     });
     if (!data) {
       // @ts-ignore

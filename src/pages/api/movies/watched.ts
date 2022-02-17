@@ -8,6 +8,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 const New = async (req: NextApiRequest, res: NextApiResponse) => {
   const user = await isAuthenticatedAPIRoute(req, res);
+  const { genre } = req.query as { genre: string };
   if (req.method === "POST") {
     return;
   }
@@ -35,7 +36,6 @@ const New = async (req: NextApiRequest, res: NextApiResponse) => {
       },
       include: {
         posters: true,
-        genres: true,
       },
     });
 

@@ -61,6 +61,7 @@ export const cleanMovies = async (movies) => {
     results: withGenres.map((m) => ({
       ...m,
       tmdbId: m.id,
+      genres: m.genres.map(({ id }) => id),
     })),
   };
 };
@@ -106,9 +107,8 @@ export const getGenresToCreate = async (movie, prisma) => {
   return movie.genres.filter((genre) => !existingIds.includes(genre.id));
 };
 
-export const prepareDataForMovieSave = async ({ movie, user, id, prisma }) => {
-  const genresToCreate = await getGenresToCreate(movie, prisma);
-
+export const prepareDataForMovieSave = async ({ movie, user, id }) => {
+  const genres = movie.genres.map(({ id }) => id);
   return {
     data: {
       ...omit(movie, [
@@ -133,17 +133,13 @@ export const prepareDataForMovieSave = async ({ movie, user, id, prisma }) => {
           id: user.id,
         },
       },
+      genres,
       tmdbId: id.toString(),
       backdrops: {
         create: movie.backdrops,
       },
       posters: {
         create: movie.posters,
-      },
-      genres: {
-        createMany: {
-          data: genresToCreate,
-        },
       },
     },
   };

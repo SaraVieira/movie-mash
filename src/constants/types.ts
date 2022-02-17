@@ -15,10 +15,7 @@ export type MovieSmall = {
   voteCount: number;
   posters: posterSizes;
   backdrops: backdropSizes;
-  genres: {
-    id: number;
-    name: string;
-  }[];
+  genres: number[];
   seen: boolean | null;
   liked: boolean | null;
   disliked: boolean | null;

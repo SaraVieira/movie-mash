@@ -87,9 +87,9 @@ model Movies {
     voteCount        Int
     posters          Posters[]
     backdrops        Backdrops[]
-    genres           Genre[]
     User             User?       @relation(fields: [userId], references: [id])
     userId           String?
+    genres           Int[]
 }
 
 model Backdrops {
@@ -111,13 +111,6 @@ model Posters {
     w500     String?
     w780     String?
     original String?
-    Movies   Movies? @relation(fields: [moviesId], references: [id])
-    moviesId String?
-}
-
-model Genre {
-    id       Int     @id
-    name     String
     Movies   Movies? @relation(fields: [moviesId], references: [id])
     moviesId String?
 }

@@ -20,7 +20,6 @@ const New = async (req: NextApiRequest, res: NextApiResponse) => {
       },
       include: {
         posters: true,
-        genres: true,
       },
     });
 

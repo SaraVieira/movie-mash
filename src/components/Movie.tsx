@@ -9,6 +9,7 @@ import { MovieActions } from "./MovieActions";
 import { languages } from "../constants/languages";
 import { getFlagEmoji } from "../helpers/languages";
 import { MovieSmall } from "../constants/types";
+import { getGenre } from "../constants/genres";
 
 export const Movie = (movie: MovieSmall) => {
   const [showActions, setShowActions] = useState(false);
@@ -69,7 +70,7 @@ export const Movie = (movie: MovieSmall) => {
           </span>
           <div className="flex text-xs text-white text-opacity-50 justify-between items-center">
             <span className="max-w-[70%]">
-              {movie.genres.map((genre) => genre.name).join(" | ")}
+              {movie.genres.map((id) => getGenre(id).name).join(" | ")}
             </span>
             {date}
           </div>

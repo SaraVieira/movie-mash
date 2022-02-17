@@ -106,7 +106,10 @@ export const getServerSideProps: GetServerSideProps = async (
       authOptions
     );
     return {
-      props: { session, movies },
+      props: {
+        session,
+        movies,
+      },
     };
   });
 };
