@@ -57,7 +57,12 @@ export const SearchHeader = ({
     };
   }, []);
   return (
-    <div className="flex justify-between align-center  mb-8 relative z-10">
+    <div
+      className={classNames(
+        searchOpen ? "" : " mb-8",
+        "flex justify-between align-center  relative z-10"
+      )}
+    >
       {!onSearch && (
         <Link href="/">
           <a>
