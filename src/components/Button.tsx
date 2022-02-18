@@ -1,10 +1,10 @@
 import classNames from "classnames";
-import { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
 type Props = {
   loading?: boolean;
   variant?: "primary" | "secondary";
-  children: any;
+  children: React.ReactNode;
 } & ButtonHTMLAttributes<any>;
 
 export const Button = ({

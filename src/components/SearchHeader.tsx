@@ -16,7 +16,8 @@ export const SearchHeader = ({
   open?: boolean;
   value?: string;
   placeholder?: string;
-  onSearch?: any;
+  // eslint-disable-next-line no-unused-vars
+  onSearch?: (value: string) => void;
   required?: boolean;
 }) => {
   const [searchOpen, setSearchOpen] = useState(open);

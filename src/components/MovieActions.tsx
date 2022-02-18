@@ -10,9 +10,9 @@ import {
   ThumbUpIcon,
 } from "@heroicons/react/outline";
 import Tippy from "@tippyjs/react";
-import { MovieSmall } from "../constants/types";
+import { FullMovie, MovieSmall } from "../constants/types";
 
-export const MovieActions = (movie: MovieSmall) => {
+export const MovieActions = (movie: MovieSmall | FullMovie) => {
   const mutation = useMovieWatchlistToggle(movie);
   const likeMovie = useLikeMovieToggled(movie);
   const dislikeMovie = useDislikeMovieToggled(movie);

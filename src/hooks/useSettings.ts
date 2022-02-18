@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Settings } from "../constants/types";
+import { NewSession, Settings } from "../constants/types";
 
 export const useSettings = (
   initialSettings: Settings,
-  session: any
+  session: NewSession
 ): {
   settings: Settings;
   loading: boolean;

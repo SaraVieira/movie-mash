@@ -39,7 +39,7 @@ type posterSizes = {
   original?: string;
 };
 
-export type FullMovie = MovieSmall & {
+export type FullMovie = Omit<MovieSmall, "genres"> & {
   adult: false;
   belongsToCollection: {
     id: number;

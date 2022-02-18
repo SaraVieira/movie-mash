@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { FullMovie, MovieSmall } from "../constants/types";
 
-export const useMovieWatchlistToggle = (movie: MovieSmall) => {
+export const useMovieWatchlistToggle = (movie: MovieSmall | FullMovie) => {
   const queryClient = useQueryClient();
   const onMovieWatchlistToggle = useMutation(
     (watchlist: boolean) =>
@@ -20,7 +20,7 @@ export const useMovieWatchlistToggle = (movie: MovieSmall) => {
 
   return onMovieWatchlistToggle;
 };
-export const useLikeMovieToggled = (movie: MovieSmall) => {
+export const useLikeMovieToggled = (movie: MovieSmall | FullMovie) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(
@@ -40,7 +40,7 @@ export const useLikeMovieToggled = (movie: MovieSmall) => {
   return mutation;
 };
 
-export const useDislikeMovieToggled = (movie: MovieSmall) => {
+export const useDislikeMovieToggled = (movie: MovieSmall | FullMovie) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation(

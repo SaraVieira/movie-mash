@@ -8,7 +8,7 @@ import { signOut } from "next-auth/react";
 import Alert from "../components/Alert";
 import { useState } from "react";
 import { Button } from "../components/Button";
-import { Settings, Stats } from "../constants/types";
+import { NewSession, Settings, Stats } from "../constants/types";
 import { useSettings, useToggleSettings } from "../hooks/useSettings";
 
 export default function IndexPage({
@@ -18,7 +18,7 @@ export default function IndexPage({
 }: {
   settings: Settings;
   stats: Stats;
-  session: { user: { email: string; admin: boolean } };
+  session: NewSession;
 }) {
   const { settings } = useSettings(initialSettings, session);
   const mutation = useToggleSettings(settings);
