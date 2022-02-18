@@ -3,12 +3,29 @@ import type { AppProps } from "next/app";
 import { ReactQueryDevtools } from "react-query/devtools";
 import "./styles.css";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import "tippy.js/dist/tippy.css"; // optional
 import Head from "next/head";
+
+import React from "react";
+import ProgressBar from "@badrap/bar-of-progress";
+import Router from "next/router";
+
+const progress = new ProgressBar({
+  size: 2,
+  color: "#47CFFF",
+  className: "bar-of-progress",
+  delay: 100,
+});
+
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient());
+  useEffect(() => {
+    Router.events.on("routeChangeStart", progress.start);
+    Router.events.on("routeChangeComplete", progress.finish);
+    Router.events.on("routeChangeError", progress.finish);
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
