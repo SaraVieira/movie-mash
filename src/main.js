@@ -31,6 +31,7 @@ Alpine.store("features", {
     },
     {
       name: "Comments",
+      future: true,
       description:
         "Leave comments for any movie you watch so you never forget how awesome or terrible it was",
       icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" viewBox="0 0 20 20" fill="currentColor">
